@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const globalStyles = StyleSheet.create({
+  // ** Drawer **
   drawerButton: {
     marginVertical: 10,
     flexDirection: 'row',
@@ -18,5 +19,10 @@ export const globalStyles = StyleSheet.create({
     fontSize: 20,
     color: '#FFF',
     fontWeight: 'bold',
+  },
+
+  // ** General **
+  globalMargin: {
+    marginHorizontal: 15,
   },
 });

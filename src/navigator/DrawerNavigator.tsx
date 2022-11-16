@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {StackNavigator} from './StackNavigator';
 import SettingsScreen from '../screens/SettingsScreen';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {globalStyles} from '../theme/globalStyles';
 
 export type RootDrawerParams = {
@@ -33,6 +33,15 @@ const DrawerContent = ({navigation}: DrawerContentComponentProps) => {
     <DrawerContentScrollView style={{...globalStyles.drawerContainer}}>
       <View style={globalStyles.drawerContainer}>
         <View style={globalStyles.drawerButtons}>
+          <Image
+            source={require('../assets/icon.png')}
+            style={{
+              height: 60,
+              width: 58,
+              alignSelf: 'center',
+              marginBottom: 20,
+            }}
+          />
           <TouchableOpacity
             onPress={() => navigation.navigate('Home')}
             activeOpacity={0.6}
