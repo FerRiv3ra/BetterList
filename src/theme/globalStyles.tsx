@@ -12,17 +12,20 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 20,
   },
   drawerContainer: {
-    backgroundColor: '#6663F1',
     flex: 1,
   },
   drawerText: {
     fontSize: 20,
-    color: '#FFF',
     fontWeight: 'bold',
   },
 
   // ** General **
   globalMargin: {
     marginHorizontal: 15,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
