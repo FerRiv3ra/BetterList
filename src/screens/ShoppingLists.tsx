@@ -1,14 +1,14 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
 import {ThemeContext} from '../context/ThemeContext';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/StackNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-interface Props extends StackScreenProps<RootStackParams, 'TodoLists'> {}
+interface Props extends StackScreenProps<RootStackParams, 'ShoppingLists'> {}
 
-const TodoLists = ({navigation}: Props) => {
+const ShoppingLists = ({navigation}: Props) => {
   const {
     theme: {colors},
   } = useContext(ThemeContext);
@@ -31,7 +31,7 @@ const TodoLists = ({navigation}: Props) => {
   );
 };
 
-export default TodoLists;
+export default ShoppingLists;
 
 const styles = StyleSheet.create({
   button: {

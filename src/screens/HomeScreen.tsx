@@ -1,5 +1,4 @@
 import {
-  Text,
   View,
   Dimensions,
   StyleSheet,
@@ -14,7 +13,7 @@ import ButtonLarge from '../components/ButtonLarge';
 import {globalStyles} from '../theme/globalStyles';
 import FloatingButton from '../components/FloatingButton';
 import {ThemeContext} from '../context/ThemeContext';
-import {Appearance} from 'react-native';
+import AppContext from '../context/AppContext';
 
 const height = Dimensions.get('window').height;
 
@@ -26,6 +25,9 @@ const HomeScreen = ({navigation}: Props) => {
     theme: {colors},
     actualTheme,
   } = useContext(ThemeContext);
+
+  const {lists} = useContext(AppContext);
+
   return (
     <View style={{flex: 1}}>
       <View style={{...styles.header, backgroundColor: colors.primary}}>
@@ -51,8 +53,8 @@ const HomeScreen = ({navigation}: Props) => {
             icon={'cart-outline'}
             fontSize={20}
             color={colors.text}
-            cant={5}
-            route={'ShopingLists'}
+            cant={lists.filter(list => list.type === 'shopping').length}
+            route={'ShoppingLists'}
           />
         </View>
         <ButtonLarge
@@ -60,7 +62,7 @@ const HomeScreen = ({navigation}: Props) => {
           icon={'list-circle-outline'}
           fontSize={20}
           color={colors.text}
-          cant={3}
+          cant={lists.filter(list => list.type === 'todo').length}
           route={'TodoLists'}
         />
       </View>

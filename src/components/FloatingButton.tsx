@@ -16,11 +16,14 @@ const FloatingButton = ({route}: Props) => {
   } = useContext(ThemeContext);
 
   return (
-    <View style={{...styles.button, backgroundColor: colors.primary}}>
-      <TouchableOpacity onPress={() => navigator.navigate(route as never)}>
+    <TouchableOpacity
+      style={{...styles.button, backgroundColor: colors.primary}}
+      onPress={() => navigator.navigate(route as never)}
+      activeOpacity={0.7}>
+      <View>
         <Icon name="add-outline" size={25} color={colors.text} />
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
