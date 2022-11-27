@@ -54,7 +54,7 @@ const HomeScreen = ({navigation}: Props) => {
             fontSize={20}
             color={colors.text}
             cant={lists.filter(list => list.type === 'shopping').length}
-            route={'ShoppingLists'}
+            route={'shopping'}
           />
         </View>
         <ButtonLarge
@@ -63,7 +63,7 @@ const HomeScreen = ({navigation}: Props) => {
           fontSize={20}
           color={colors.text}
           cant={lists.filter(list => list.type === 'todo').length}
-          route={'TodoLists'}
+          route={'todo'}
         />
       </View>
       <FloatingButton route={'AddList'} />

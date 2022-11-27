@@ -7,14 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {StackNavigator} from './StackNavigator';
 import SettingsScreen from '../screens/SettingsScreen';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Appearance,
-} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {globalStyles} from '../theme/globalStyles';
 import {useContext} from 'react';
 import {ThemeContext} from '../context/ThemeContext';

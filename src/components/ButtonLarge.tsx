@@ -30,8 +30,11 @@ const ButtonLarge = ({
   return (
     <TouchableOpacity
       style={{...styles.button, backgroundColor: colors.primary}}
-      onPress={() => navigator.navigate(route as never)}>
-      <Icon name={icon} size={fontSize} color={color} />
+      onPress={() =>
+        navigator.navigate('Lists' as never, {type: route} as never)
+      }
+      activeOpacity={0.7}>
+      <Icon name={icon} size={fontSize + 2} color={color} />
       <Text style={{...styles.textBtn, color, fontSize}}> {title}</Text>
       <View style={{flex: 1}} />
       <View style={{...styles.cant, backgroundColor: colors.card}}>

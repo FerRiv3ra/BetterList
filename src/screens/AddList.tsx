@@ -15,16 +15,34 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/StackNavigator';
 import SegmentedControl from '../components/SegmentedControls';
 import {globalStyles} from '../theme/globalStyles';
+import AppContext from '../context/AppContext';
+import {List, ListType} from '../types/contextTypes';
+import {generateID} from '../helpers/generateId';
 
 interface Props extends StackScreenProps<RootStackParams, 'AddList'> {}
 
 const AddList = ({navigation}: Props) => {
-  const [type, setType] = useState('shopping');
+  const [type, setType] = useState<ListType | string>('shopping');
+  const [title, setTitle] = useState('');
+
+  const {setLists, lists} = useContext(AppContext);
   const {top} = useSafeAreaInsets();
 
   const {
-    theme: {colors},
+    theme: {colors, listText},
   } = useContext(ThemeContext);
+
+  const handleAdd = () => {
+    const newList: List = {
+      id: generateID(),
+      title: title.trim(),
+      type: type as ListType,
+      items: [],
+    };
+    setLists([...lists, newList]);
+
+    navigation.goBack();
+  };
 
   return (
     <View style={{backgroundColor: colors.card, flex: 1, paddingTop: top}}>
@@ -50,7 +68,7 @@ const AddList = ({navigation}: Props) => {
           <SegmentedControl
             values={[
               {key: '🛒 Shopping', value: 'shopping'},
-              {key: '☑️ To do', value: 'shopping'},
+              {key: '☑️ To do', value: 'todo'},
             ]}
             onChange={setType}
             backgroundColor={colors.primary}
@@ -72,12 +90,15 @@ const AddList = ({navigation}: Props) => {
             style={{
               ...styles.input,
               backgroundColor: colors.card,
+              color: listText,
             }}
+            onChangeText={setTitle}
           />
         </View>
         <View style={{flex: 1}} />
         <TouchableOpacity
           style={{...styles.saveBtn, backgroundColor: colors.primary}}
+          onPress={handleAdd}
           activeOpacity={0.7}>
           <Icon name="save-outline" color={colors.text} size={18} />
           <Text style={{...styles.textSave, color: colors.text}}> Save</Text>

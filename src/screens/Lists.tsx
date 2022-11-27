@@ -1,17 +1,25 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
 import {ThemeContext} from '../context/ThemeContext';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/StackNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import ListItem from '../components/ListItem';
+import AppContext from '../context/AppContext';
 
-interface Props extends StackScreenProps<RootStackParams, 'TodoLists'> {}
+interface Props extends StackScreenProps<RootStackParams, 'Lists'> {}
 
-const TodoLists = ({navigation}: Props) => {
+const Lists = ({
+  navigation,
+  route: {
+    params: {type},
+  },
+}: Props) => {
   const {
-    theme: {colors},
+    theme: {colors, listText},
   } = useContext(ThemeContext);
+  const {lists} = useContext(AppContext);
 
   const {top} = useSafeAreaInsets();
 
@@ -27,11 +35,22 @@ const TodoLists = ({navigation}: Props) => {
         onPress={() => navigation.goBack()}>
         <Icon name="arrow-back-outline" color={colors.text} size={18} />
       </TouchableOpacity>
+      <View style={styles.listView}>
+        {!!lists.filter(li => li.type === type).length ? (
+          lists
+            .filter(l => l.type === type)
+            .map(list => <ListItem {...list} key={list.id} />)
+        ) : (
+          <Text style={{...styles.nothingText, color: listText}}>
+            Nothing to show
+          </Text>
+        )}
+      </View>
     </View>
   );
 };
 
-export default TodoLists;
+export default Lists;
 
 const styles = StyleSheet.create({
   button: {
@@ -39,5 +58,15 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 50,
     left: 15,
+  },
+  listView: {
+    marginTop: 70,
+    marginHorizontal: 20,
+  },
+  nothingText: {
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 18,
+    marginTop: 30,
   },
 });
