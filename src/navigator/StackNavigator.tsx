@@ -4,11 +4,13 @@ import AddList from '../screens/AddList';
 import {useContext} from 'react';
 import {ThemeContext} from '../context/ThemeContext';
 import Lists from '../screens/Lists';
+import List from '../screens/List';
 
 export type RootStackParams = {
   HomeScreen: undefined;
   AddList: undefined;
   Lists: {type: 'shopping' | 'todo'};
+  List: {listId: string};
 };
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -27,6 +29,7 @@ export const StackNavigator = () => {
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="AddList" component={AddList} />
       <Stack.Screen name="Lists" component={Lists} />
+      <Stack.Screen name="List" component={List} />
     </Stack.Navigator>
   );
 };

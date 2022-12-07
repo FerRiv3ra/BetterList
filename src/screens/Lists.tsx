@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useContext} from 'react';
 import {ThemeContext} from '../context/ThemeContext';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -35,17 +41,19 @@ const Lists = ({
         onPress={() => navigation.goBack()}>
         <Icon name="arrow-back-outline" color={colors.text} size={18} />
       </TouchableOpacity>
-      <View style={styles.listView}>
-        {!!lists.filter(li => li.type === type).length ? (
-          lists
-            .filter(l => l.type === type)
-            .map(list => <ListItem {...list} key={list.id} />)
-        ) : (
-          <Text style={{...styles.nothingText, color: listText}}>
-            Nothing to show
-          </Text>
-        )}
-      </View>
+      <ScrollView>
+        <View style={styles.listView}>
+          {!!lists.filter(li => li.type === type).length ? (
+            lists
+              .filter(l => l.type === type)
+              .map(list => <ListItem {...list} key={list.id} />)
+          ) : (
+            <Text style={{...styles.nothingText, color: listText}}>
+              Nothing to show
+            </Text>
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -58,6 +66,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 50,
     left: 15,
+    zIndex: 999,
   },
   listView: {
     marginTop: 70,

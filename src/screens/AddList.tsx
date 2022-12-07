@@ -18,12 +18,14 @@ import {globalStyles} from '../theme/globalStyles';
 import AppContext from '../context/AppContext';
 import {List, ListType} from '../types/contextTypes';
 import {generateID} from '../helpers/generateId';
+import ListIcons from '../components/ListIcons';
 
 interface Props extends StackScreenProps<RootStackParams, 'AddList'> {}
 
 const AddList = ({navigation}: Props) => {
   const [type, setType] = useState<ListType | string>('shopping');
   const [title, setTitle] = useState('');
+  const [selectedIcon, setSelectedIcon] = useState('list');
 
   const {setLists, lists} = useContext(AppContext);
   const {top} = useSafeAreaInsets();
@@ -37,7 +39,12 @@ const AddList = ({navigation}: Props) => {
       id: generateID(),
       title: title.trim(),
       type: type as ListType,
-      items: [],
+      items: [
+        {index: 1, title: 'test', completed: false},
+        {index: 2, title: 'test 2', completed: true},
+      ],
+      showCompleted: true,
+      icon: type === 'shopping' ? 'cart-outline' : selectedIcon,
     };
     setLists([...lists, newList]);
 
@@ -93,9 +100,18 @@ const AddList = ({navigation}: Props) => {
               color: listText,
             }}
             onChangeText={setTitle}
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
+          {type === 'todo' && (
+            <ListIcons
+              selectedIcon={selectedIcon}
+              setSelectedIcon={setSelectedIcon}
+            />
+          )}
         </View>
+
         <View style={{flex: 1}} />
+
         <TouchableOpacity
           style={{...styles.saveBtn, backgroundColor: colors.primary}}
           onPress={handleAdd}
