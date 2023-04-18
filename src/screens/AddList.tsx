@@ -40,8 +40,18 @@ const AddList = ({navigation}: Props) => {
       title: title.trim(),
       type: type as ListType,
       items: [
-        {index: 1, title: 'test', completed: false},
-        {index: 2, title: 'test 2', completed: true},
+        {
+          index: 1,
+          title: 'test',
+          completed: false,
+          price: type === 'shopping' ? 0.0 : undefined,
+        },
+        {
+          index: 2,
+          title: 'test 2',
+          completed: true,
+          price: type === 'shopping' ? 0.0 : undefined,
+        },
       ],
       showCompleted: true,
       icon: type === 'shopping' ? 'cart-outline' : selectedIcon,

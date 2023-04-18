@@ -12,6 +12,9 @@ interface Props {
 
 const Task = ({item, handleTask, total}: Props) => {
   const [title, setTitle] = useState(item.title);
+  const [price, setPrice] = useState(item.price);
+
+  // TODO: Arreglar precio
 
   const lastItem = useRef<any>(null);
 
@@ -28,27 +31,43 @@ const Task = ({item, handleTask, total}: Props) => {
   return (
     <View style={{...styles.itemContainer, borderBottomColor: dividerColor}}>
       <Pressable
-        onPress={() => handleTask({...item, completed: !item.completed})}>
+        onPress={() => handleTask({...item, completed: !item.completed})}
+        style={{flexDirection: 'row'}}>
         <Icon
           name={item.completed ? 'checkmark-circle' : 'ellipse-outline'}
           size={22}
           style={{marginRight: 5}}
           color={listText}
         />
+        <TextInput
+          value={title}
+          ref={lastItem}
+          onChangeText={setTitle}
+          onEndEditing={() => handleTask({...item, title})}
+          onSubmitEditing={() => handleTask({...item, title}, true)}
+          style={{
+            flex: 1,
+            fontSize: 18,
+            color: item.completed ? '#666' : listText,
+            textDecorationLine: item.completed ? 'line-through' : 'none',
+          }}
+        />
       </Pressable>
-      <TextInput
-        value={title}
-        ref={lastItem}
-        onChangeText={setTitle}
-        onEndEditing={() => handleTask({...item, title})}
-        onSubmitEditing={() => handleTask({...item, title}, true)}
-        style={{
-          flex: 1,
-          fontSize: 18,
-          color: item.completed ? '#666' : listText,
-          textDecorationLine: item.completed ? 'line-through' : 'none',
-        }}
-      />
+      {!!price ||
+        (price === 0 && (
+          <TextInput
+            value={`${price}`}
+            onChangeText={value => setPrice(Number(value))}
+            onEndEditing={() => handleTask({...item, price})}
+            onSubmitEditing={() => handleTask({...item, price}, true)}
+            style={{
+              flex: 1,
+              fontSize: 18,
+              color: item.completed ? '#666' : listText,
+              textDecorationLine: item.completed ? 'line-through' : 'none',
+            }}
+          />
+        ))}
     </View>
   );
 };
@@ -58,7 +77,6 @@ export default Task;
 const styles = StyleSheet.create({
   itemContainer: {
     padding: 10,
-    flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
   },

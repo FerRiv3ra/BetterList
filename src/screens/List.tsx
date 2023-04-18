@@ -15,6 +15,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ThemeContext} from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Task from '../components/Task';
+import ListFooter from '../components/ListFooter';
 
 interface Props extends StackScreenProps<RootStackParams, 'List'> {}
 
@@ -29,11 +30,12 @@ const List = ({
     type: 'shopping',
     id: '',
     showCompleted: true,
+    total: undefined,
   });
   const [allTasks, setAllTasks] = useState<item[]>([]);
   const [showCompleted, setShowCompleted] = useState<boolean>(true);
   const [sortByName, setSortByName] = useState(false);
-
+  // TODO: reparar bug al completar todas las tareas vuelven a aparecer todas
   const {
     theme: {colors},
   } = useContext(ThemeContext);
@@ -42,13 +44,23 @@ const List = ({
 
   useEffect(() => {
     const currentList = lists.filter(li => li.id === listId)[0];
+
+    if (currentList.type === 'shopping') {
+      const tot = currentList.items?.reduce((tot, task) => {
+        tot = (tot + task.price!) | 0;
+
+        return tot;
+      }, 0);
+
+      currentList.total = tot;
+    }
+
     setSelectedList(currentList);
     setShowCompleted(currentList.showCompleted);
     setAllTasks(currentList.items || []);
   }, []);
 
   const handleCompleted = (completed: boolean) => {
-    console.log(completed);
     setShowCompleted(!completed);
 
     if (!completed) {
@@ -97,6 +109,7 @@ const List = ({
       index: allTasks.length + 1,
       title: '',
       completed: false,
+      price: 0.0,
     };
 
     setAllTasks([...allTasks, newTask]);
@@ -105,9 +118,7 @@ const List = ({
   };
 
   return (
-    <Pressable
-      style={{backgroundColor: colors.card, flex: 1}}
-      onPress={addTask}>
+    <View style={{backgroundColor: colors.card, flex: 1}}>
       <Pressable
         style={{
           backgroundColor: colors.primary,
@@ -133,7 +144,7 @@ const List = ({
           <Icon name="swap-vertical" size={25} color={colors.card} />
         </TouchableOpacity>
       </Pressable>
-      <ScrollView>
+      <ScrollView keyboardDismissMode="on-drag">
         {selectedList.items?.map(item => (
           <Task
             item={item}
@@ -143,7 +154,8 @@ const List = ({
           />
         ))}
       </ScrollView>
-    </Pressable>
+      <ListFooter onPress={addTask} total={selectedList.total} />
+    </View>
   );
 };
 

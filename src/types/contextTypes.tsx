@@ -4,6 +4,7 @@ export type List = {
   title: string;
   items?: item[];
   icon?: string;
+  total?: number;
   showCompleted: boolean;
 };
 
@@ -12,4 +13,5 @@ export type item = {
   index: number;
   title: string;
   completed: boolean;
+  price?: number;
 };
