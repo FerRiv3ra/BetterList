@@ -2,20 +2,20 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
+
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/StackNavigator';
-import AppContext from '../context/AppContext';
-import {item, List as ListType} from '../types/contextTypes';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {ThemeContext} from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import {ThemeContext} from '../context/ThemeContext';
 import Task from '../components/Task';
 import ListFooter from '../components/ListFooter';
+import {useList} from '../hooks/useList';
 
 interface Props extends StackScreenProps<RootStackParams, 'List'> {}
 
@@ -25,97 +25,22 @@ const List = ({
     params: {listId},
   },
 }: Props) => {
-  const [selectedList, setSelectedList] = useState<ListType>({
-    title: '',
-    type: 'shopping',
-    id: '',
-    showCompleted: true,
-    total: undefined,
-  });
-  const [allTasks, setAllTasks] = useState<item[]>([]);
-  const [showCompleted, setShowCompleted] = useState<boolean>(true);
-  const [sortByName, setSortByName] = useState(false);
+  const {
+    showCompleted,
+    handleCompleted,
+    handleSortByName,
+    selectedList,
+    handleTask,
+    totalTasks,
+    addTask,
+    total,
+  } = useList(listId);
+
   // TODO: reparar bug al completar todas las tareas vuelven a aparecer todas
   const {
     theme: {colors},
   } = useContext(ThemeContext);
-  const {lists} = useContext(AppContext);
   const {top} = useSafeAreaInsets();
-
-  useEffect(() => {
-    const currentList = lists.filter(li => li.id === listId)[0];
-
-    if (currentList.type === 'shopping') {
-      const tot = currentList.items?.reduce((tot, task) => {
-        tot = (tot + task.price!) | 0;
-
-        return tot;
-      }, 0);
-
-      currentList.total = tot;
-    }
-
-    setSelectedList(currentList);
-    setShowCompleted(currentList.showCompleted);
-    setAllTasks(currentList.items || []);
-  }, []);
-
-  const handleCompleted = (completed: boolean) => {
-    setShowCompleted(!completed);
-
-    if (!completed) {
-      setSelectedList({...selectedList, items: allTasks});
-    } else {
-      setSelectedList({
-        ...selectedList,
-        items: selectedList.items?.filter(item => !item.completed),
-      });
-    }
-  };
-
-  const handleTask = (task: item, addNew = false) => {
-    // TODO: mover a context
-    if (!!task.title.length) {
-      const updatedTaskList = allTasks.map(t => {
-        if (t.index === task.index) {
-          return task;
-        } else {
-          return t;
-        }
-      });
-
-      setAllTasks(updatedTaskList);
-
-      setSelectedList({...selectedList, items: updatedTaskList});
-
-      if (addNew) {
-        addTask();
-      }
-    } else {
-      removeTask(task.index);
-    }
-  };
-
-  const removeTask = (index: number) => {
-    const updatedTaskList = allTasks.filter(t => t.index !== index);
-
-    setAllTasks(updatedTaskList);
-
-    setSelectedList({...selectedList, items: updatedTaskList});
-  };
-
-  const addTask = () => {
-    const newTask: item = {
-      index: allTasks.length + 1,
-      title: '',
-      completed: false,
-      price: 0.0,
-    };
-
-    setAllTasks([...allTasks, newTask]);
-
-    setSelectedList({...selectedList, items: [...allTasks, newTask]});
-  };
 
   return (
     <View style={{backgroundColor: colors.card, flex: 1}}>
@@ -138,9 +63,7 @@ const List = ({
           backgroundColor="transparent">
           Completed
         </Icon.Button>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => setSortByName(!sortByName)}>
+        <TouchableOpacity activeOpacity={0.7} onPress={handleSortByName}>
           <Icon name="swap-vertical" size={25} color={colors.card} />
         </TouchableOpacity>
       </Pressable>
@@ -150,11 +73,11 @@ const List = ({
             item={item}
             key={item.index}
             handleTask={handleTask}
-            total={allTasks.length}
+            total={totalTasks}
           />
         ))}
       </ScrollView>
-      <ListFooter onPress={addTask} total={selectedList.total} />
+      <ListFooter onPress={addTask} total={total} type={selectedList.type} />
     </View>
   );
 };

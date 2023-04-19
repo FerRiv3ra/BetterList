@@ -8,12 +8,11 @@ import {ThemeContext} from '../context/ThemeContext';
 interface Props {
   onPress: () => void;
   total?: number;
+  type: string;
 }
 
-const ListFooter = ({onPress, total}: Props) => {
+const ListFooter = ({onPress, total, type}: Props) => {
   const {bottom} = useSafeAreaInsets();
-
-  console.log(total);
 
   const {
     theme: {colors},
@@ -32,14 +31,13 @@ const ListFooter = ({onPress, total}: Props) => {
           <Text style={{...styles.text, color: colors.text}}>Add Task</Text>
         </View>
       </TouchableOpacity>
-      {!!total ||
-        (total === 0 && (
-          <View>
-            <Text style={{...styles.text, color: colors.text}}>
-              Total: <Text style={{...styles.total}}>$ {total.toFixed(2)}</Text>
-            </Text>
-          </View>
-        ))}
+      {type !== 'todo' && (
+        <View>
+          <Text style={{...styles.text, color: colors.text}}>
+            Total: <Text style={{...styles.total}}>$ {total!.toFixed(2)}</Text>
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

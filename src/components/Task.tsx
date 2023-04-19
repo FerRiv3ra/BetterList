@@ -12,7 +12,9 @@ interface Props {
 
 const Task = ({item, handleTask, total}: Props) => {
   const [title, setTitle] = useState(item.title);
-  const [price, setPrice] = useState(item.price);
+  const [price, setPrice] = useState(
+    typeof item.price === 'number' ? `${item.price}` : undefined,
+  );
 
   // TODO: Arreglar precio
 
@@ -53,21 +55,25 @@ const Task = ({item, handleTask, total}: Props) => {
           }}
         />
       </Pressable>
-      {!!price ||
-        (price === 0 && (
+      {typeof price === 'string' && (
+        <View style={{...styles.bottomTextContainer}}>
+          <Text style={{...styles.bottomText}}>$ </Text>
           <TextInput
             value={`${price}`}
-            onChangeText={value => setPrice(Number(value))}
-            onEndEditing={() => handleTask({...item, price})}
-            onSubmitEditing={() => handleTask({...item, price}, true)}
+            keyboardType="numeric"
+            onChangeText={setPrice}
+            onEndEditing={() => handleTask({...item, price: Number(price)})}
+            onSubmitEditing={() =>
+              handleTask({...item, price: Number(price)}, true)
+            }
             style={{
               flex: 1,
-              fontSize: 18,
+              fontSize: 14,
               color: item.completed ? '#666' : listText,
-              textDecorationLine: item.completed ? 'line-through' : 'none',
             }}
           />
-        ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -79,5 +85,15 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     borderBottomWidth: 1,
+  },
+  bottomTextContainer: {
+    flexDirection: 'row',
+    paddingLeft: 25,
+    paddingRight: 10,
+    alignItems: 'center',
+  },
+  bottomText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
 });
