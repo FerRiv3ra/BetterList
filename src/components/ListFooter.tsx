@@ -4,11 +4,12 @@ import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ThemeContext} from '../context/ThemeContext';
+import {ListType} from '../types/contextTypes';
 
 interface Props {
   onPress: () => void;
   total?: number;
-  type: string;
+  type: ListType;
 }
 
 const ListFooter = ({onPress, total, type}: Props) => {
@@ -31,7 +32,7 @@ const ListFooter = ({onPress, total, type}: Props) => {
           <Text style={{...styles.text, color: colors.text}}>Add Task</Text>
         </View>
       </TouchableOpacity>
-      {type !== 'todo' && (
+      {type === 'shopping' && (
         <View>
           <Text style={{...styles.text, color: colors.text}}>
             Total: <Text style={{...styles.total}}>$ {total!.toFixed(2)}</Text>

@@ -1,8 +1,9 @@
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {item} from '../types/contextTypes';
 import {ThemeContext} from '../context/ThemeContext';
+import {useTask} from '../hooks/useTask';
 
 interface Props {
   item: item;
@@ -11,24 +12,11 @@ interface Props {
 }
 
 const Task = ({item, handleTask, total}: Props) => {
-  const [title, setTitle] = useState(item.title);
-  const [price, setPrice] = useState(
-    typeof item.price === 'number' ? `${item.price}` : undefined,
-  );
-
-  // TODO: Arreglar precio
-
-  const lastItem = useRef<any>(null);
+  const {title, setTitle, lastItem, price, handlePrice} = useTask(item, total);
 
   const {
     theme: {dividerColor, listText},
   } = useContext(ThemeContext);
-
-  useEffect(() => {
-    if (item.index === total) {
-      lastItem.current!.focus();
-    }
-  }, [total]);
 
   return (
     <View style={{...styles.itemContainer, borderBottomColor: dividerColor}}>
@@ -59,9 +47,9 @@ const Task = ({item, handleTask, total}: Props) => {
         <View style={{...styles.bottomTextContainer}}>
           <Text style={{...styles.bottomText}}>$ </Text>
           <TextInput
-            value={`${price}`}
-            keyboardType="numeric"
-            onChangeText={setPrice}
+            value={price}
+            keyboardType="decimal-pad"
+            onChangeText={handlePrice}
             onEndEditing={() => handleTask({...item, price: Number(price)})}
             onSubmitEditing={() =>
               handleTask({...item, price: Number(price)}, true)

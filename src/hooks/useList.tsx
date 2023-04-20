@@ -34,7 +34,9 @@ export const useList = (listId: string) => {
 
   const updateTotal = (li: item[]): number => {
     const totalList = li.reduce((tot, task) => {
-      tot += task.price! || 0;
+      if (!task.completed) {
+        tot += task.price! || 0;
+      }
 
       return tot;
     }, 0);
@@ -62,6 +64,10 @@ export const useList = (listId: string) => {
     if (!!task.title.length) {
       const updatedTaskList = allTasks.map(t => {
         if (t.index === task.index) {
+          if (task.price) {
+            task.price = Number(task.price.toFixed(2));
+          }
+
           return task;
         } else {
           return t;
