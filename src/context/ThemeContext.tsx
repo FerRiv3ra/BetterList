@@ -1,6 +1,9 @@
 import React, {createContext, useEffect, useReducer, useState} from 'react';
 import {Appearance, useColorScheme} from 'react-native';
 import {ThemeState, themeReducer, lightTheme, darkTheme} from './themeReducer';
+import AsyncStorage, {
+  useAsyncStorage,
+} from '@react-native-async-storage/async-storage';
 
 interface ThemeContextProps {
   theme: ThemeState;
@@ -9,6 +12,7 @@ interface ThemeContextProps {
   actualTheme: string;
   setAutoTheme: (value: boolean) => void;
   setDevTheme: (value: string) => void;
+  setTheme: (value: string) => void;
   setDarkTheme: () => void;
   setLightTheme: () => void;
 }
@@ -16,7 +20,6 @@ interface ThemeContextProps {
 export const ThemeContext = createContext({} as ThemeContextProps);
 
 export const ThemeProvider = ({children}: any) => {
-  // TODO: Agregar al storage el estado del tema
   const [devTheme, setDevTheme] = useState('');
   const [autoTheme, setAutoTheme] = useState(false);
   const [actualTheme, setActualtheme] = useState('');
@@ -29,14 +32,32 @@ export const ThemeProvider = ({children}: any) => {
   );
 
   useEffect(() => {
+    checkCurrentTheme();
+  }, []);
+
+  useEffect(() => {
     if (autoTheme) {
       colorScheme === 'light' ? setLightTheme() : setDarkTheme();
       setActualtheme(colorScheme || 'light');
     } else {
       devTheme === 'dark' ? setDarkTheme() : setLightTheme();
-      setActualtheme(devTheme);
+      setActualtheme(devTheme || 'light');
     }
   }, [colorScheme, autoTheme, devTheme]);
+
+  const checkCurrentTheme = async () => {
+    const currentTheme = await AsyncStorage.getItem('theme');
+
+    if (!!currentTheme) {
+      setDevTheme(currentTheme);
+    }
+  };
+
+  const setTheme = async (theme: string) => {
+    setDevTheme(theme);
+
+    await AsyncStorage.setItem('theme', theme);
+  };
 
   const setDarkTheme = () => {
     dispatch({type: 'set_dark_theme'});
@@ -56,6 +77,7 @@ export const ThemeProvider = ({children}: any) => {
         setLightTheme,
         devTheme,
         setDevTheme,
+        setTheme,
         setAutoTheme,
         autoTheme,
         actualTheme,

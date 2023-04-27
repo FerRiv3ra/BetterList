@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "dark": "Dark",
+    "english": "English",
+    "language": "Language",
+    "light": "Light",
+    "save": "Save",
+    "spanish": "Spanish",
+    "systemTheme": "System theme",
+    "theme": "Theme"
+  }
+}

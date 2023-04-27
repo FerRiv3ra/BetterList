@@ -1,10 +1,12 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
+
+import {useTranslation} from 'react-i18next';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useContext} from 'react';
-import {ThemeContext} from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {DrawerScreenProps} from '@react-navigation/drawer';
+
+import {ThemeContext} from '../context/ThemeContext';
 import SegmentedControl from '../components/SegmentedControls';
 import {CustomSwitch} from '../components/CustomSwitch';
 import {globalStyles} from '../theme/globalStyles';
@@ -13,16 +15,20 @@ import AppContext from '../context/AppContext';
 interface Props extends DrawerScreenProps<any, any> {}
 
 const SettingsScreen = ({navigation}: Props) => {
-  // TODO: Pasar a estado global
-  const [lang, setLang] = useState('');
+  const {t, i18n} = useTranslation();
 
   const {top} = useSafeAreaInsets();
   const {
     theme: {colors},
-    setDevTheme,
+    setTheme,
     autoTheme,
     setAutoTheme,
+    actualTheme,
   } = useContext(ThemeContext);
+
+  const {setLanguage} = useContext(AppContext);
+
+  console.log(actualTheme);
 
   return (
     <View
@@ -39,14 +45,15 @@ const SettingsScreen = ({navigation}: Props) => {
       </TouchableOpacity>
       <View style={{marginTop: 80}}>
         <Text style={{...globalStyles.title, color: colors.primary}}>
-          Language
+          {t('settings.language')}
         </Text>
         <SegmentedControl
           values={[
-            {key: '🇪🇸 Spanish', value: 'ES'},
-            {key: '🇬🇧 English', value: 'EN'},
+            {key: `🇪🇸 ${t('settings.spanish')}`, value: 'es'},
+            {key: `🇬🇧 ${t('settings.english')}`, value: 'en'},
           ]}
-          onChange={setDevTheme}
+          selectedIndex={i18n.language === 'es' ? 0 : 1}
+          onChange={setLanguage}
           backgroundColor={colors.primary}
           selectedTextColor={colors.primary}
           textColor={colors.text}
@@ -55,11 +62,11 @@ const SettingsScreen = ({navigation}: Props) => {
       </View>
       <View style={{marginTop: 30}}>
         <Text style={{...globalStyles.title, color: colors.primary}}>
-          Theme
+          {t('settings.theme')}
         </Text>
         <View style={styles.switch}>
           <Text style={{color: colors.primary, fontWeight: '500'}}>
-            System Theme
+            {t('settings.systemTheme')}
           </Text>
           <CustomSwitch
             isOn={autoTheme}
@@ -70,10 +77,11 @@ const SettingsScreen = ({navigation}: Props) => {
         {!autoTheme && (
           <SegmentedControl
             values={[
-              {key: '😎 Light', value: 'light'},
-              {key: '🧛‍♂️ Dark', value: 'dark'},
+              {key: `😎 ${t('settings.light')}`, value: 'light'},
+              {key: `🧛‍♂️ ${t('settings.dark')}`, value: 'dark'},
             ]}
-            onChange={setDevTheme}
+            onChange={setTheme}
+            selectedIndex={actualTheme === 'light' ? 0 : 1}
             backgroundColor={colors.primary}
             selectedTextColor={colors.primary}
             textColor={colors.text}
