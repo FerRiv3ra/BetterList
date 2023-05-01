@@ -16,7 +16,7 @@ export const useList = (listId: string) => {
   const [showCompleted, setShowCompleted] = useState<boolean>(true);
   const [sortByName, setSortByName] = useState<boolean>(false);
 
-  const {lists} = useContext(AppContext);
+  const {lists, updateList} = useContext(AppContext);
 
   useEffect(() => {
     const currentList = lists.filter(li => li.id === listId)[0];
@@ -30,7 +30,7 @@ export const useList = (listId: string) => {
     setSelectedList(currentList);
     setShowCompleted(currentList.showCompleted);
     setAllTasks(currentList.items || []);
-  }, []);
+  }, [lists]);
 
   const updateTotal = (li: item[]): number => {
     const totalList = li.reduce((tot, task) => {
@@ -60,7 +60,6 @@ export const useList = (listId: string) => {
   };
 
   const handleTask = (task: item, addNew = false) => {
-    // TODO: mover a context
     if (!!task.title.length) {
       const updatedTaskList = allTasks.map(t => {
         if (t.index === task.index) {
@@ -74,9 +73,8 @@ export const useList = (listId: string) => {
         }
       });
 
+      updateList({...selectedList, items: updatedTaskList});
       setAllTasks(updatedTaskList);
-
-      setSelectedList({...selectedList, items: updatedTaskList});
 
       if (addNew) {
         addTask();
@@ -91,9 +89,8 @@ export const useList = (listId: string) => {
   const removeTask = (index: number) => {
     const updatedTaskList = allTasks.filter(t => t.index !== index);
 
+    updateList({...selectedList, items: updatedTaskList});
     setAllTasks(updatedTaskList);
-
-    setSelectedList({...selectedList, items: updatedTaskList});
   };
 
   const addTask = () => {
@@ -106,7 +103,7 @@ export const useList = (listId: string) => {
 
     setAllTasks([...allTasks, newTask]);
 
-    setSelectedList({...selectedList, items: [...allTasks, newTask]});
+    updateList({...selectedList, items: [...allTasks, newTask]});
   };
 
   const handleSortByName = () => {

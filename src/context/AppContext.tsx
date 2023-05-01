@@ -1,28 +1,46 @@
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import React, {createContext, useEffect, useReducer} from 'react';
 import {List} from '../types/contextTypes';
 import i18n from '../translations/config/i18NextConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {listReducer} from './listReducer';
 
 type AppContextProps = {
   lists: List[];
-  setLists: Dispatch<SetStateAction<List[]>>;
   setLanguage: (lang: string) => void;
+  addList: (list: List) => void;
+  updateList: (list: List) => void;
+  removeList: (id: string) => void;
 };
 
 const AppContext = createContext({} as AppContextProps);
 
 export const AppProvider = ({children}: any) => {
-  const [lists, setLists] = useState<List[]>([]);
+  const [lists, dispatch] = useReducer(listReducer, []);
 
   useEffect(() => {
     checkLanguage();
   }, []);
+
+  const addList = (list: List) => {
+    dispatch({
+      type: 'add-list',
+      payload: list,
+    });
+  };
+
+  const updateList = (list: List) => {
+    dispatch({
+      type: 'update-list',
+      payload: list,
+    });
+  };
+
+  const removeList = (id: string) => {
+    dispatch({
+      type: 'remove-list',
+      payload: id,
+    });
+  };
 
   const checkLanguage = async () => {
     const lang = await AsyncStorage.getItem('lang');
@@ -46,8 +64,10 @@ export const AppProvider = ({children}: any) => {
     <AppContext.Provider
       value={{
         lists,
-        setLists,
         setLanguage,
+        addList,
+        updateList,
+        removeList,
       }}>
       {children}
     </AppContext.Provider>

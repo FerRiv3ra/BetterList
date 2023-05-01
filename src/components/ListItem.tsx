@@ -1,11 +1,14 @@
-import React, {useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {List} from '../types/contextTypes';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {ThemeContext} from '../context/ThemeContext';
 import {useNavigation} from '@react-navigation/native';
+import ListChangeNameModal from './ListChangeNameModal';
 
 const ListItem = (list: List) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const {
     theme: {listText, dividerColor},
   } = useContext(ThemeContext);
@@ -18,6 +21,7 @@ const ListItem = (list: List) => {
       onPress={() =>
         navigator.navigate('List' as never, {listId: list.id} as never)
       }
+      onLongPress={() => setModalVisible(true)}
       style={{...styles.itemContainer, borderBottomColor: dividerColor}}>
       <Icon name={list.icon || 'cart-outline'} size={20} color={listText} />
       <Text style={{...styles.textItem, color: listText}}> {list.title}</Text>
@@ -26,6 +30,12 @@ const ListItem = (list: List) => {
         {list.items?.length}{' '}
       </Text>
       <Icon name="chevron-forward-outline" size={22} color={listText} />
+
+      <ListChangeNameModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        title={list.title}
+      />
     </TouchableOpacity>
   );
 };

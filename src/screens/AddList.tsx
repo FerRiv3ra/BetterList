@@ -27,7 +27,7 @@ const AddList = ({navigation}: Props) => {
   const [title, setTitle] = useState('');
   const [selectedIcon, setSelectedIcon] = useState('list');
 
-  const {setLists, lists} = useContext(AppContext);
+  const {addList} = useContext(AppContext);
   const {top} = useSafeAreaInsets();
 
   const {
@@ -39,24 +39,12 @@ const AddList = ({navigation}: Props) => {
       id: generateID(),
       title: title.trim(),
       type: type as ListType,
-      items: [
-        {
-          index: 1,
-          title: 'test',
-          completed: false,
-          price: type === 'shopping' ? 0.0 : undefined,
-        },
-        {
-          index: 2,
-          title: 'test 2',
-          completed: true,
-          price: type === 'shopping' ? 0.0 : undefined,
-        },
-      ],
+      items: [],
       showCompleted: true,
       icon: type === 'shopping' ? 'cart-outline' : selectedIcon,
     };
-    setLists([...lists, newList]);
+
+    addList(newList);
 
     navigation.goBack();
   };

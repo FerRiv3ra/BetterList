@@ -1,9 +1,7 @@
 import React, {createContext, useEffect, useReducer, useState} from 'react';
 import {Appearance, useColorScheme} from 'react-native';
 import {ThemeState, themeReducer, lightTheme, darkTheme} from './themeReducer';
-import AsyncStorage, {
-  useAsyncStorage,
-} from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ThemeContextProps {
   theme: ThemeState;
