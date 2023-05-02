@@ -14,6 +14,7 @@
     "confirmDelete": "Sí, eliminar",
     "delete": "Eliminar",
     "deleteMsg": "Las listas eliminadas no se pueden recuperar",
+    "edit": "Editar",
     "error": "Error",
     "errorMsg": "El título no puede estar vacío.",
     "save": "Guardar",

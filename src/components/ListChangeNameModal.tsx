@@ -1,5 +1,4 @@
 import {
-  Alert,
   Keyboard,
   Modal,
   StyleSheet,
@@ -12,8 +11,8 @@ import React, {useContext, useState} from 'react';
 import {ThemeContext} from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {List} from '../types/contextTypes';
-import AppContext from '../context/AppContext';
 import {useTranslation} from 'react-i18next';
+import {useModalList} from '../hooks/useModalList';
 
 interface Props {
   setModalVisible: (visible: boolean) => void;
@@ -29,25 +28,7 @@ const ListChangeNameModal = ({setModalVisible, modalVisible, list}: Props) => {
     theme: {colors, listText, dark},
   } = useContext(ThemeContext);
 
-  const {updateList, removeList} = useContext(AppContext);
-
-  const handleSave = () => {
-    if (!currentTitle.length) {
-      Alert.alert(t('modal.error'), t('modal.errorMsg') || '');
-      return;
-    }
-
-    updateList({...list, title: currentTitle});
-
-    setModalVisible(false);
-  };
-
-  const handleDelete = () => {
-    Alert.alert(t('modal.warning'), `${t('modal.deleteMsg')}`, [
-      {text: `${t('modal.cancel')}`},
-      {text: `${t('modal.confirmDelete')}`, onPress: () => removeList(list.id)},
-    ]);
-  };
+  const {handleDelete, handleSave} = useModalList();
 
   return (
     <Modal transparent visible={modalVisible} animationType="fade">
@@ -68,7 +49,7 @@ const ListChangeNameModal = ({setModalVisible, modalVisible, list}: Props) => {
           <TouchableOpacity
             activeOpacity={0.6}
             style={{...styles.button, backgroundColor: colors.primary}}
-            onPress={handleSave}>
+            onPress={() => handleSave(currentTitle, list, setModalVisible)}>
             <Icon name="save-outline" size={15} color={colors.text} />
             <Text style={{...styles.textStyle, color: colors.text}}>
               {' '}
@@ -78,7 +59,7 @@ const ListChangeNameModal = ({setModalVisible, modalVisible, list}: Props) => {
           <TouchableOpacity
             activeOpacity={0.6}
             style={{...styles.button, ...styles.buttonDelete}}
-            onPress={handleDelete}>
+            onPress={() => handleDelete(list.id)}>
             <Icon name="trash-outline" size={15} color={colors.text} />
             <Text style={{...styles.textStyle, color: colors.text}}>
               {' '}
@@ -126,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonDelete: {
-    backgroundColor: '#FF0000',
+    backgroundColor: '#EF4444',
     marginTop: 15,
   },
   buttonClose: {
