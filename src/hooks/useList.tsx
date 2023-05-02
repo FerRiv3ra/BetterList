@@ -47,16 +47,9 @@ export const useList = (listId: string) => {
   };
 
   const handleCompleted = (completed: boolean) => {
-    setShowCompleted(!completed);
+    const currentList: List = {...selectedList, showCompleted: !completed};
 
-    if (!completed) {
-      setSelectedList({...selectedList, items: allTasks});
-    } else {
-      setSelectedList({
-        ...selectedList,
-        items: selectedList.items?.filter(item => !item.completed),
-      });
-    }
+    updateList(currentList);
   };
 
   const handleTask = (task: item, addNew = false) => {

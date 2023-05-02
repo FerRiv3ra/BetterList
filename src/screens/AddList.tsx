@@ -19,6 +19,7 @@ import AppContext from '../context/AppContext';
 import {List, ListType} from '../types/contextTypes';
 import {generateID} from '../helpers/generateId';
 import ListIcons from '../components/ListIcons';
+import {useTranslation} from 'react-i18next';
 
 interface Props extends StackScreenProps<RootStackParams, 'AddList'> {}
 
@@ -28,6 +29,7 @@ const AddList = ({navigation}: Props) => {
   const [selectedIcon, setSelectedIcon] = useState('list');
 
   const {addList} = useContext(AppContext);
+  const {t} = useTranslation();
   const {top} = useSafeAreaInsets();
 
   const {
@@ -68,12 +70,12 @@ const AddList = ({navigation}: Props) => {
               color: colors.primary,
               marginTop: 20,
             }}>
-            Type
+            {t('ui.type')}
           </Text>
           <SegmentedControl
             values={[
-              {key: '🛒 Shopping', value: 'shopping'},
-              {key: '☑️ To do', value: 'todo'},
+              {key: `🛒 ${t('ui.shopping')}`, value: 'shopping'},
+              {key: `☑️ ${t('ui.todo')}`, value: 'todo'},
             ]}
             onChange={setType}
             backgroundColor={colors.primary}
@@ -87,10 +89,10 @@ const AddList = ({navigation}: Props) => {
               color: colors.primary,
               marginTop: 20,
             }}>
-            Title
+            {t('ui.title')}
           </Text>
           <TextInput
-            placeholder="Title"
+            placeholder={`${t('ui.title')}`}
             placeholderTextColor="#a5b4fc"
             style={{
               ...styles.input,
@@ -114,8 +116,11 @@ const AddList = ({navigation}: Props) => {
           style={{...styles.saveBtn, backgroundColor: colors.primary}}
           onPress={handleAdd}
           activeOpacity={0.7}>
-          <Icon name="save-outline" color={colors.text} size={18} />
-          <Text style={{...styles.textSave, color: colors.text}}> Save</Text>
+          <Icon name="create-outline" color={colors.text} size={18} />
+          <Text style={{...styles.textSave, color: colors.text}}>
+            {' '}
+            {t('ui.createList')}
+          </Text>
         </TouchableOpacity>
       </Pressable>
     </View>

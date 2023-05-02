@@ -36,7 +36,6 @@ const List = ({
     total,
   } = useList(listId);
 
-  // TODO: reparar bug al completar todas las tareas vuelven a aparecer todas
   const {
     theme: {colors},
   } = useContext(ThemeContext);
@@ -68,14 +67,29 @@ const List = ({
         </TouchableOpacity>
       </Pressable>
       <ScrollView keyboardDismissMode="on-drag">
-        {selectedList.items?.map(item => (
-          <Task
-            item={item}
-            key={item.index}
-            handleTask={handleTask}
-            total={totalTasks}
-          />
-        ))}
+        {selectedList.items?.map(item => {
+          if (selectedList.showCompleted) {
+            return (
+              <Task
+                item={item}
+                key={item.index}
+                handleTask={handleTask}
+                total={totalTasks}
+              />
+            );
+          } else {
+            if (!item.completed) {
+              return (
+                <Task
+                  item={item}
+                  key={item.index}
+                  handleTask={handleTask}
+                  total={totalTasks}
+                />
+              );
+            }
+          }
+        })}
       </ScrollView>
       <ListFooter onPress={addTask} total={total} type={selectedList.type} />
     </View>

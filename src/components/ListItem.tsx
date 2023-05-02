@@ -34,7 +34,7 @@ const ListItem = (list: List) => {
       <ListChangeNameModal
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
-        title={list.title}
+        list={list}
       />
     </TouchableOpacity>
   );

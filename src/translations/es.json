@@ -8,5 +8,27 @@
     "spanish": "Español",
     "systemTheme": "Tema del sistema",
     "theme": "Tema"
+  },
+  "modal": {
+    "cancel": "Cancelar",
+    "confirmDelete": "Sí, eliminar",
+    "delete": "Eliminar",
+    "deleteMsg": "Las listas eliminadas no se pueden recuperar",
+    "error": "Error",
+    "errorMsg": "El título no puede estar vacío.",
+    "save": "Guardar",
+    "warning": "Advertencia"
+  },
+  "ui": {
+    "addTask": "Agregar tarea",
+    "completed": "Completadas",
+    "createList": "Crear lista",
+    "shopping": "Compras",
+    "shoppingList": "Lista de compras",
+    "title": "Título",
+    "todo": "Por hacer",
+    "todoList": "Cosas por hacer",
+    "total": "Total",
+    "type": "Tipo"
   }
 }

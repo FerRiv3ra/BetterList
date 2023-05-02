@@ -8,5 +8,27 @@
     "spanish": "Spanish",
     "systemTheme": "System theme",
     "theme": "Theme"
+  },
+  "modal": {
+    "cancel": "Cancel",
+    "confirmDelete": "Yes, delete",
+    "delete": "Delete",
+    "deleteMsg": "Deleted lists cannot be recovered",
+    "error": "Error",
+    "errorMsg": "The title cannot be empty.",
+    "save": "Save",
+    "warning": "Warning"
+  },
+  "ui": {
+    "addTask": "Add task",
+    "completed": "Completed",
+    "createList": "Create list",
+    "shopping": "Shopping",
+    "shoppingList": "Shopping list",
+    "title": "Title",
+    "todo": "To do",
+    "todoList": "To do list",
+    "total": "Total",
+    "type": "Type"
   }
 }

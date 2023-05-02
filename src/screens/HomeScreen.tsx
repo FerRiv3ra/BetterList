@@ -14,6 +14,7 @@ import {globalStyles} from '../theme/globalStyles';
 import FloatingButton from '../components/FloatingButton';
 import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
+import {useTranslation} from 'react-i18next';
 
 const height = Dimensions.get('window').height;
 
@@ -25,6 +26,8 @@ const HomeScreen = ({navigation}: Props) => {
     theme: {colors},
     actualTheme,
   } = useContext(ThemeContext);
+
+  const {t} = useTranslation();
 
   const {lists} = useContext(AppContext);
 
@@ -49,7 +52,7 @@ const HomeScreen = ({navigation}: Props) => {
       <View style={globalStyles.globalMargin}>
         <View style={styles.button}>
           <ButtonLarge
-            title={'Shopping Lists'}
+            title={`${t('ui.shoppingList')}`}
             icon={'cart-outline'}
             fontSize={20}
             color={colors.text}
@@ -58,7 +61,7 @@ const HomeScreen = ({navigation}: Props) => {
           />
         </View>
         <ButtonLarge
-          title={'To Do Lists'}
+          title={`${t('ui.todoList')}`}
           icon={'list-circle-outline'}
           fontSize={20}
           color={colors.text}
