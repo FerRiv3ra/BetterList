@@ -1,32 +1,37 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {List} from '../types/contextTypes';
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import {ThemeContext} from '../context/ThemeContext';
 import {useNavigation} from '@react-navigation/native';
-import ListChangeNameModal from './ListChangeNameModal';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
+
+import {ThemeContext} from '../context/ThemeContext';
+import ListChangeNameModal from './ListChangeNameModal';
 import RightAction from './RightAction';
 import LeftAction from './LeftAction';
+import {List} from '../types/contextTypes';
 
-const ListItem = (list: List) => {
+interface Props {
+  list: List;
+  index: number;
+  closeRow: (index: number) => void;
+  row: Swipeable[];
+  closeSwipeable: () => void;
+}
+
+const ListItem = ({list, index, closeRow, row, closeSwipeable}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const {
     theme: {listText, dividerColor, colors},
   } = useContext(ThemeContext);
 
-  const swipeableRef = useRef<any>(null);
-
-  const closeSwipeable = () => {
-    swipeableRef.current.close();
-  };
-
   const navigator = useNavigation();
 
   return (
     <Swipeable
-      ref={swipeableRef}
+      ref={ref => (row[index] = ref as any)}
+      onSwipeableOpen={() => closeRow(index)}
       renderRightActions={(p, dragX) => (
         <RightAction
           id={list.id}

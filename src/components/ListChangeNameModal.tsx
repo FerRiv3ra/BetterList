@@ -8,11 +8,13 @@ import {
   View,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
-import {ThemeContext} from '../context/ThemeContext';
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import {List} from '../types/contextTypes';
 import {useTranslation} from 'react-i18next';
+
+import {ThemeContext} from '../context/ThemeContext';
 import {useModalList} from '../hooks/useModalList';
+import {List} from '../types/contextTypes';
 
 interface Props {
   setModalVisible: (visible: boolean) => void;

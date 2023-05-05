@@ -2,6 +2,7 @@ import {useContext, useEffect, useState} from 'react';
 
 import AppContext from '../context/AppContext';
 import {item, List} from '../types/contextTypes';
+import {generateID} from '../helpers/generateId';
 
 export const useList = (listId: string) => {
   const [selectedList, setSelectedList] = useState<List>({
@@ -92,6 +93,7 @@ export const useList = (listId: string) => {
       title: '',
       completed: false,
       price: 0.0,
+      id: generateID(),
     };
 
     setAllTasks([...allTasks, newTask]);

@@ -7,10 +7,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 
 import {ThemeContext} from '../context/ThemeContext';
+import AppContext from '../context/AppContext';
+import {globalStyles} from '../theme/globalStyles';
 import SegmentedControl from '../components/SegmentedControls';
 import {CustomSwitch} from '../components/CustomSwitch';
-import {globalStyles} from '../theme/globalStyles';
-import AppContext from '../context/AppContext';
 
 interface Props extends DrawerScreenProps<any, any> {}
 

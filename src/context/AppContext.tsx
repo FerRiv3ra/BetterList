@@ -1,8 +1,10 @@
 import React, {createContext, useEffect, useReducer} from 'react';
-import {List} from '../types/contextTypes';
-import i18n from '../translations/config/i18NextConfig';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import i18n from '../translations/config/i18NextConfig';
 import {listReducer} from './listReducer';
+import {List} from '../types/contextTypes';
 
 type AppContextProps = {
   lists: List[];

@@ -11,6 +11,7 @@ export type List = {
 export type ListType = 'shopping' | 'todo';
 export type item = {
   index: number;
+  id: string;
   title: string;
   completed: boolean;
   price?: number;

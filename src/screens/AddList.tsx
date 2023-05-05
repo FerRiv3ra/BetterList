@@ -8,18 +8,20 @@ import {
   View,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {ThemeContext} from '../context/ThemeContext';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../navigator/StackNavigator';
-import SegmentedControl from '../components/SegmentedControls';
-import {globalStyles} from '../theme/globalStyles';
-import AppContext from '../context/AppContext';
-import {List, ListType} from '../types/contextTypes';
-import {generateID} from '../helpers/generateId';
-import ListIcons from '../components/ListIcons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
+
+import {ThemeContext} from '../context/ThemeContext';
+import AppContext from '../context/AppContext';
+import {RootStackParams} from '../navigator/StackNavigator';
+import {globalStyles} from '../theme/globalStyles';
+import SegmentedControl from '../components/SegmentedControls';
+import ListIcons from '../components/ListIcons';
+import {generateID} from '../helpers/generateId';
+import {List, ListType} from '../types/contextTypes';
 
 interface Props extends StackScreenProps<RootStackParams, 'AddList'> {}
 

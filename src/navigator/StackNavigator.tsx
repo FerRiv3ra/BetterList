@@ -1,8 +1,10 @@
+import {useContext} from 'react';
+
 import {createStackNavigator} from '@react-navigation/stack';
+
+import {ThemeContext} from '../context/ThemeContext';
 import HomeScreen from '../screens/HomeScreen';
 import AddList from '../screens/AddList';
-import {useContext} from 'react';
-import {ThemeContext} from '../context/ThemeContext';
 import Lists from '../screens/Lists';
 import List from '../screens/List';
 

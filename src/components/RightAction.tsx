@@ -1,10 +1,11 @@
-import {StyleSheet, Text, View, Pressable, Animated} from 'react-native';
+import {StyleSheet, Text, Pressable, Animated} from 'react-native';
 import React, {useContext} from 'react';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useTranslation} from 'react-i18next';
 
 import {ThemeContext} from '../context/ThemeContext';
 import {useModalList} from '../hooks/useModalList';
-import {useTranslation} from 'react-i18next';
 
 interface Props {
   id: string;

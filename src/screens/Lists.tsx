@@ -6,13 +6,16 @@ import {
   View,
 } from 'react-native';
 import React, {useContext} from 'react';
-import {ThemeContext} from '../context/ThemeContext';
+
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../navigator/StackNavigator';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import ListItem from '../components/ListItem';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
+import {RootStackParams} from '../navigator/StackNavigator';
+import ListItem from '../components/ListItem';
+import {useControlSwipeable} from '../hooks/useControlSwipeable';
 
 interface Props extends StackScreenProps<RootStackParams, 'Lists'> {}
 
@@ -28,6 +31,8 @@ const Lists = ({
   const {lists} = useContext(AppContext);
 
   const {top} = useSafeAreaInsets();
+
+  const {row, closeRow, closeSwipeable} = useControlSwipeable();
 
   return (
     <View style={{backgroundColor: colors.card, flex: 1, paddingTop: top}}>
@@ -46,7 +51,16 @@ const Lists = ({
           {!!lists.filter(li => li.type === type).length ? (
             lists
               .filter(l => l.type === type)
-              .map(list => <ListItem {...list} key={list.id} />)
+              .map((list, index) => (
+                <ListItem
+                  list={list}
+                  key={list.id}
+                  index={index}
+                  closeRow={closeRow}
+                  row={row}
+                  closeSwipeable={closeSwipeable}
+                />
+              ))
           ) : (
             <Text style={{...styles.nothingText, color: listText}}>
               Nothing to show

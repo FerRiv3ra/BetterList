@@ -6,15 +6,17 @@ import {
   Image,
 } from 'react-native';
 import React, {useContext} from 'react';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DrawerScreenProps} from '@react-navigation/drawer';
-import ButtonLarge from '../components/ButtonLarge';
-import {globalStyles} from '../theme/globalStyles';
-import FloatingButton from '../components/FloatingButton';
+import {useTranslation} from 'react-i18next';
+
 import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
-import {useTranslation} from 'react-i18next';
+import {globalStyles} from '../theme/globalStyles';
+import ButtonLarge from '../components/ButtonLarge';
+import FloatingButton from '../components/FloatingButton';
 
 const height = Dimensions.get('window').height;
 

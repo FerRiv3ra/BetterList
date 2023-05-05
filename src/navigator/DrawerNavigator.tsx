@@ -1,3 +1,6 @@
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {useContext} from 'react';
+
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
@@ -5,12 +8,10 @@ import {
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {StackNavigator} from './StackNavigator';
-import SettingsScreen from '../screens/SettingsScreen';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {globalStyles} from '../theme/globalStyles';
-import {useContext} from 'react';
 import {ThemeContext} from '../context/ThemeContext';
+import {StackNavigator} from './StackNavigator';
+import {globalStyles} from '../theme/globalStyles';
+import SettingsScreen from '../screens/SettingsScreen';
 
 export type RootDrawerParams = {
   Home: undefined;

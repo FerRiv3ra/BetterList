@@ -1,8 +1,10 @@
 import {StyleSheet, Text, View, Pressable, Animated} from 'react-native';
 import React, {useContext} from 'react';
-import {ThemeContext} from '../context/ThemeContext';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
+
+import {ThemeContext} from '../context/ThemeContext';
 
 interface Props {
   setModalVisible: (visible: boolean) => void;

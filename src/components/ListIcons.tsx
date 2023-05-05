@@ -1,5 +1,6 @@
 import {Keyboard, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
+
 import IconButton from './IconButton';
 
 interface Props {
