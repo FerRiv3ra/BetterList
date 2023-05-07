@@ -76,12 +76,12 @@ export const useList = (listId: string) => {
 
       updateTotal(updatedTaskList);
     } else {
-      removeTask(task.index);
+      removeTask(task.id);
     }
   };
 
-  const removeTask = (index: number) => {
-    const updatedTaskList = allTasks.filter(t => t.index !== index);
+  const removeTask = (id: string) => {
+    const updatedTaskList = allTasks.filter(t => t.id !== id);
 
     updateList({...selectedList, items: updatedTaskList});
     setAllTasks(updatedTaskList);
@@ -106,13 +106,14 @@ export const useList = (listId: string) => {
   };
 
   return {
-    showCompleted,
+    addTask,
     handleCompleted,
     handleSortByName,
-    selectedList,
     handleTask,
-    totalTasks: allTasks.length,
-    addTask,
+    removeTask,
+    selectedList,
+    showCompleted,
     total,
+    totalTasks: allTasks.length,
   };
 };

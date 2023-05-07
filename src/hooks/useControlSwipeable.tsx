@@ -11,7 +11,9 @@ export const useControlSwipeable = () => {
   };
 
   const closeSwipeable = () => {
-    prevOpenedRow.close();
+    if (!!prevOpenedRow) {
+      prevOpenedRow.close();
+    }
   };
 
   return {

@@ -9,12 +9,18 @@ import {useModalList} from '../hooks/useModalList';
 
 interface Props {
   id: string;
-  closeSwipeable: () => void;
+  closeSwipeable?: () => void;
   progress?: Animated.AnimatedInterpolation<string | number>;
   dragX: Animated.AnimatedInterpolation<string | number>;
+  task?: boolean;
 }
 
-const RightAction = ({id, closeSwipeable, dragX}: Props) => {
+const RightAction = ({
+  id,
+  closeSwipeable = () => {},
+  dragX,
+  task = false,
+}: Props) => {
   const {
     theme: {colors, dividerColor},
   } = useContext(ThemeContext);
@@ -36,9 +42,14 @@ const RightAction = ({id, closeSwipeable, dragX}: Props) => {
   };
 
   return (
-    <Animated.View style={{flexDirection: 'row'}}>
+    <Animated.View style={{flexDirection: 'row', flex: task ? 1 : undefined}}>
       <Pressable
-        style={{...styles.btn, borderBottomColor: dividerColor}}
+        style={{
+          ...styles.btn,
+          borderBottomColor: dividerColor,
+          alignItems: task ? 'flex-end' : 'center',
+          flex: task ? 1 : undefined,
+        }}
         onPress={deleteList}>
         <Animated.View style={{...styles.btnContent, transform: [{scale}]}}>
           <Icon name="trash-outline" size={13} color={colors.text} />
@@ -58,7 +69,6 @@ const styles = StyleSheet.create({
   btn: {
     paddingHorizontal: 15,
     justifyContent: 'center',
-    alignItems: 'center',
     borderBottomWidth: 1,
     backgroundColor: '#EF4444',
   },

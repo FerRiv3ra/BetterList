@@ -12,26 +12,30 @@ import RightAction from './RightAction';
 interface Props {
   item: item;
   handleTask: (task: item, addNew?: boolean) => void;
+  removeTask: (id: string) => void;
   total: number;
 }
 
-const Task = ({item, handleTask, total}: Props) => {
+const Task = ({item, handleTask, total, removeTask}: Props) => {
   const {title, setTitle, lastItem, price, handlePrice} = useTask(item, total);
 
   const {
-    theme: {dividerColor, listText},
+    theme: {dividerColor, listText, colors},
   } = useContext(ThemeContext);
-
-  // TODO: Trabajar la eliminación de tareas
 
   return (
     <Swipeable
       renderRightActions={(p, dragX) => (
-        <RightAction id={item.id} dragX={dragX} closeSwipeable={() => {}} />
-      )}>
+        <RightAction id={item.id} dragX={dragX} task />
+      )}
+      onSwipeableOpen={() => removeTask(item.id)}>
       <GestureHandlerRootView>
         <View
-          style={{...styles.itemContainer, borderBottomColor: dividerColor}}>
+          style={{
+            ...styles.itemContainer,
+            borderBottomColor: dividerColor,
+            backgroundColor: colors.background,
+          }}>
           <Pressable
             onPress={() => handleTask({...item, completed: !item.completed})}
             style={{flexDirection: 'row'}}>

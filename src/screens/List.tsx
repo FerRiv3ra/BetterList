@@ -26,14 +26,15 @@ const List = ({
   },
 }: Props) => {
   const {
-    showCompleted,
+    addTask,
     handleCompleted,
     handleSortByName,
-    selectedList,
     handleTask,
-    totalTasks,
-    addTask,
+    removeTask,
+    selectedList,
+    showCompleted,
     total,
+    totalTasks,
   } = useList(listId);
 
   const {
@@ -74,6 +75,7 @@ const List = ({
                 item={item}
                 key={item.index}
                 handleTask={handleTask}
+                removeTask={removeTask}
                 total={totalTasks}
               />
             );
@@ -84,6 +86,7 @@ const List = ({
                   item={item}
                   key={item.index}
                   handleTask={handleTask}
+                  removeTask={removeTask}
                   total={totalTasks}
                 />
               );

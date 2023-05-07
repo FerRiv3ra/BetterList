@@ -28,6 +28,12 @@ const ListItem = ({list, index, closeRow, row, closeSwipeable}: Props) => {
 
   const navigator = useNavigation();
 
+  const handleNavigate = () => {
+    closeSwipeable();
+
+    navigator.navigate('List' as never, {listId: list.id} as never);
+  };
+
   return (
     <Swipeable
       ref={ref => (row[index] = ref as any)}
@@ -49,9 +55,7 @@ const ListItem = ({list, index, closeRow, row, closeSwipeable}: Props) => {
       <GestureHandlerRootView>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() =>
-            navigator.navigate('List' as never, {listId: list.id} as never)
-          }
+          onPress={handleNavigate}
           onLongPress={() => setModalVisible(true)}
           style={{
             ...styles.itemContainer,
