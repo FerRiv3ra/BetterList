@@ -2,20 +2,24 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/StackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useTranslation} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {ThemeContext} from '../context/ThemeContext';
-import Task from '../components/Task';
 import ListFooter from '../components/ListFooter';
 import {useList} from '../hooks/useList';
+import MenuOptionsList from '../components/MenuOptionsList';
+import ModalNewCategory from '../components/ModalNewCategory';
+import Category from '../components/Category';
 
 interface Props extends StackScreenProps<RootStackParams, 'List'> {}
 
@@ -25,29 +29,32 @@ const List = ({
     params: {listId},
   },
 }: Props) => {
-  const {
-    addTask,
-    handleCompleted,
-    handleSortByName,
-    handleTask,
-    removeTask,
-    selectedList,
-    showCompleted,
-    total,
-    totalTasks,
-  } = useList(listId);
+  const [category, setCategory] = useState('');
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [categoryModalVisible, setCategoryModalVisible] = useState(false);
+
+  // TODO: Optimizar este hook | mover a context
+  const {addTask, handleTask, removeTask, selectedList, total, totalTasks} =
+    useList(listId);
+  const {t} = useTranslation();
 
   const {
     theme: {colors},
   } = useContext(ThemeContext);
   const {top} = useSafeAreaInsets();
 
+  const openModalAddCategory = () => {
+    setMenuVisible(false);
+
+    setCategoryModalVisible(true);
+  };
+
   return (
     <View style={{backgroundColor: colors.card, flex: 1}}>
       <Pressable
         style={{
           backgroundColor: colors.primary,
-          paddingTop: top + 5,
+          height: top + 50,
           ...styles.header,
         }}>
         <TouchableOpacity
@@ -55,46 +62,55 @@ const List = ({
           onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={25} color={colors.card} />
         </TouchableOpacity>
-        <Icon.Button
-          name={!showCompleted ? 'eye' : 'eye-off'}
-          size={25}
-          color={colors.card}
-          onPress={() => handleCompleted(showCompleted)}
-          backgroundColor="transparent">
-          Completed
-        </Icon.Button>
-        <TouchableOpacity activeOpacity={0.7} onPress={handleSortByName}>
-          <Icon name="swap-vertical" size={25} color={colors.card} />
+        <Text style={{...styles.title, color: colors.card}}>
+          {selectedList.title}
+        </Text>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setMenuVisible(!menuVisible)}>
+          <Icon name="ellipsis-vertical" size={25} color={colors.card} />
         </TouchableOpacity>
       </Pressable>
-      <ScrollView keyboardDismissMode="on-drag">
-        {selectedList.items?.map(item => {
-          if (selectedList.showCompleted) {
-            return (
-              <Task
-                item={item}
-                key={item.index}
-                handleTask={handleTask}
-                removeTask={removeTask}
-                total={totalTasks}
-              />
-            );
-          } else {
-            if (!item.completed) {
-              return (
-                <Task
-                  item={item}
-                  key={item.index}
-                  handleTask={handleTask}
-                  removeTask={removeTask}
-                  total={totalTasks}
-                />
-              );
-            }
-          }
-        })}
-      </ScrollView>
-      <ListFooter onPress={addTask} total={total} type={selectedList.type} />
+      {!!selectedList.categories?.length ? (
+        <ScrollView keyboardDismissMode="on-drag">
+          {selectedList.categories.map((category, index) => (
+            <Category
+              key={index}
+              category={category}
+              isOpen
+              tasks={selectedList.items}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={{...styles.noCategories}}>
+          <Icon.Button
+            name={'add-outline'}
+            size={25}
+            style={{...styles.button, borderColor: colors.primary}}
+            color={colors.primary}
+            onPress={openModalAddCategory}
+            backgroundColor={colors.card}>
+            {t('menu.addCategory')}
+          </Icon.Button>
+        </View>
+      )}
+      <ListFooter
+        onPress={() => addTask(category)}
+        total={total}
+        type={selectedList.type}
+      />
+      <MenuOptionsList
+        visible={menuVisible}
+        list={selectedList}
+        handleVisible={setMenuVisible}
+        openModalAddCategory={openModalAddCategory}
+      />
+      <ModalNewCategory
+        setModalVisible={setCategoryModalVisible}
+        modalVisible={categoryModalVisible}
+        list={selectedList}
+      />
     </View>
   );
 };
@@ -106,7 +122,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingBottom: 12,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  noCategories: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 5,
+  },
+  button: {
+    borderWidth: 3,
   },
 });

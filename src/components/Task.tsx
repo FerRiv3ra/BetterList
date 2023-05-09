@@ -2,21 +2,22 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useContext} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 
-import {item} from '../types/contextTypes';
 import {ThemeContext} from '../context/ThemeContext';
 import {useTask} from '../hooks/useTask';
-import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 import RightAction from './RightAction';
+import {item} from '../types/contextTypes';
 
 interface Props {
   item: item;
-  handleTask: (task: item, addNew?: boolean) => void;
+  category: string;
+  handleTask: (task: item, category: string, addNew?: boolean) => void;
   removeTask: (id: string) => void;
   total: number;
 }
 
-const Task = ({item, handleTask, total, removeTask}: Props) => {
+const Task = ({item, category, handleTask, total, removeTask}: Props) => {
   const {title, setTitle, lastItem, price, handlePrice} = useTask(item, total);
 
   const {
@@ -37,7 +38,9 @@ const Task = ({item, handleTask, total, removeTask}: Props) => {
             backgroundColor: colors.background,
           }}>
           <Pressable
-            onPress={() => handleTask({...item, completed: !item.completed})}
+            onPress={() =>
+              handleTask({...item, completed: !item.completed}, category)
+            }
             style={{flexDirection: 'row'}}>
             <Icon
               name={item.completed ? 'checkmark-circle' : 'ellipse-outline'}
@@ -49,8 +52,10 @@ const Task = ({item, handleTask, total, removeTask}: Props) => {
               value={title}
               ref={lastItem}
               onChangeText={setTitle}
-              onEndEditing={() => handleTask({...item, title})}
-              onSubmitEditing={() => handleTask({...item, title}, true)}
+              onEndEditing={() => handleTask({...item, title}, category)}
+              onSubmitEditing={() =>
+                handleTask({...item, title}, category, true)
+              }
               style={{
                 flex: 1,
                 fontSize: 18,
@@ -66,9 +71,11 @@ const Task = ({item, handleTask, total, removeTask}: Props) => {
                 value={price}
                 keyboardType="decimal-pad"
                 onChangeText={handlePrice}
-                onEndEditing={() => handleTask({...item, price: Number(price)})}
+                onEndEditing={() =>
+                  handleTask({...item, price: Number(price)}, category)
+                }
                 onSubmitEditing={() =>
-                  handleTask({...item, price: Number(price)}, true)
+                  handleTask({...item, price: Number(price)}, category, true)
                 }
                 style={{
                   flex: 1,

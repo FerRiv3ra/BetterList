@@ -10,12 +10,14 @@
     "theme": "Tema"
   },
   "modal": {
+    "add": "Agregar",
     "cancel": "Cancelar",
     "confirmDelete": "Sí, eliminar",
     "delete": "Eliminar",
     "deleteMsg": "Las listas eliminadas no se pueden recuperar",
     "edit": "Editar",
     "error": "Error",
+    "errorCategory": "La categoría debe tener al menos dos caracteres",
     "errorMsg": "El título no puede estar vacío.",
     "save": "Guardar",
     "warning": "Advertencia"
@@ -31,5 +33,12 @@
     "todoList": "Cosas por hacer",
     "total": "Total",
     "type": "Tipo"
+  },
+  "menu": {
+    "addCategory": "Agregar categoría",
+    "showCompleted": "Mostrar completados",
+    "hideCompleted": "Ocultar completados",
+    "orderByName": "Ordenar por nombre",
+    "orderByPrice": "Ordenar por precio"
   }
 }

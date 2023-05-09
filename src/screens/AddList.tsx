@@ -41,11 +41,12 @@ const AddList = ({navigation}: Props) => {
   const handleAdd = () => {
     const newList: List = {
       id: generateID(),
-      title: title.trim(),
-      type: type as ListType,
+      categories: [],
+      icon: type === 'shopping' ? 'cart-outline' : selectedIcon,
       items: [],
       showCompleted: true,
-      icon: type === 'shopping' ? 'cart-outline' : selectedIcon,
+      title: title.trim(),
+      type: type as ListType,
     };
 
     addList(newList);

@@ -1,8 +1,9 @@
+import {Alert} from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 
 import AppContext from '../context/AppContext';
-import {item, List} from '../types/contextTypes';
 import {generateID} from '../helpers/generateId';
+import {item, List} from '../types/contextTypes';
 
 export const useList = (listId: string) => {
   const [selectedList, setSelectedList] = useState<List>({
@@ -53,7 +54,7 @@ export const useList = (listId: string) => {
     updateList(currentList);
   };
 
-  const handleTask = (task: item, addNew = false) => {
+  const handleTask = (task: item, category: string = '', addNew = false) => {
     if (!!task.title.length) {
       const updatedTaskList = allTasks.map(t => {
         if (t.index === task.index) {
@@ -71,7 +72,7 @@ export const useList = (listId: string) => {
       setAllTasks(updatedTaskList);
 
       if (addNew) {
-        addTask();
+        addTask(category);
       }
 
       updateTotal(updatedTaskList);
@@ -87,10 +88,16 @@ export const useList = (listId: string) => {
     setAllTasks(updatedTaskList);
   };
 
-  const addTask = () => {
+  const addTask = (category: string) => {
+    if (category.length < 2) {
+      Alert.alert('Error', 'Categoria no válida');
+      return;
+    }
+
     const newTask: item = {
       index: allTasks.length + 1,
       title: '',
+      category,
       completed: false,
       price: 0.0,
       id: generateID(),

@@ -1,18 +1,21 @@
 export type List = {
   id: string;
-  type: ListType;
-  title: string;
-  items?: item[];
+  categories?: string[];
   icon?: string;
-  total?: number;
+  items?: item[];
   showCompleted: boolean;
+  title: string;
+  total?: number;
+  type: ListType;
 };
 
 export type ListType = 'shopping' | 'todo';
+
 export type item = {
-  index: number;
   id: string;
-  title: string;
+  index: number;
+  category: string;
   completed: boolean;
   price?: number;
+  title: string;
 };
