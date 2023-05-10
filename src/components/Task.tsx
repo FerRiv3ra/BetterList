@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 
 import {ThemeContext} from '../context/ThemeContext';
+import AppContext from '../context/AppContext';
 import {useTask} from '../hooks/useTask';
 import RightAction from './RightAction';
 import {item} from '../types/contextTypes';
@@ -23,6 +24,7 @@ const Task = ({item, category, handleTask, total, removeTask}: Props) => {
   const {
     theme: {dividerColor, listText, colors},
   } = useContext(ThemeContext);
+  const {currency} = useContext(AppContext);
 
   return (
     <Swipeable
@@ -49,6 +51,8 @@ const Task = ({item, category, handleTask, total, removeTask}: Props) => {
               color={listText}
             />
             <TextInput
+              multiline={typeof price !== 'string'}
+              autoCapitalize="sentences"
               value={title}
               ref={lastItem}
               onChangeText={setTitle}
@@ -66,7 +70,7 @@ const Task = ({item, category, handleTask, total, removeTask}: Props) => {
           </Pressable>
           {typeof price === 'string' && (
             <View style={{...styles.bottomTextContainer}}>
-              <Text style={{...styles.bottomText}}>$ </Text>
+              <Text style={{...styles.bottomText}}>{currency} </Text>
               <TextInput
                 value={price}
                 keyboardType="decimal-pad"

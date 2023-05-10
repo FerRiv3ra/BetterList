@@ -1,6 +1,8 @@
 import {Alert} from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 
+import {useTranslation} from 'react-i18next';
+
 import AppContext from '../context/AppContext';
 import {generateID} from '../helpers/generateId';
 import {item, List} from '../types/contextTypes';
@@ -19,6 +21,7 @@ export const useList = (listId: string) => {
   const [sortByName, setSortByName] = useState<boolean>(false);
 
   const {lists, updateList} = useContext(AppContext);
+  const {t} = useTranslation();
 
   useEffect(() => {
     const currentList = lists.filter(li => li.id === listId)[0];
@@ -90,7 +93,7 @@ export const useList = (listId: string) => {
 
   const addTask = (category: string) => {
     if (category.length < 2) {
-      Alert.alert('Error', 'Categoria no válida');
+      Alert.alert(t('modal.error'), t('modal.errorCategoryMsg') || '');
       return;
     }
 

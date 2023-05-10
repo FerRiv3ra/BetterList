@@ -9,11 +9,11 @@ import {
 import React, {useContext, useState} from 'react';
 
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../navigator/StackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTranslation} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import {RootStackParams} from '../navigator/StackNavigator';
 import {ThemeContext} from '../context/ThemeContext';
 import ListFooter from '../components/ListFooter';
 import {useList} from '../hooks/useList';
@@ -33,7 +33,6 @@ const List = ({
   const [menuVisible, setMenuVisible] = useState(false);
   const [categoryModalVisible, setCategoryModalVisible] = useState(false);
 
-  // TODO: Optimizar este hook | mover a context
   const {addTask, handleTask, removeTask, selectedList, total, totalTasks} =
     useList(listId);
   const {t} = useTranslation();
@@ -73,12 +72,16 @@ const List = ({
       </Pressable>
       {!!selectedList.categories?.length ? (
         <ScrollView keyboardDismissMode="on-drag">
-          {selectedList.categories.map((category, index) => (
+          {selectedList.categories.map((cat, index) => (
             <Category
               key={index}
-              category={category}
-              isOpen
-              tasks={selectedList.items}
+              category={cat}
+              isOpen={cat === category}
+              setCategory={setCategory}
+              selectedList={selectedList}
+              handleTask={handleTask}
+              removeTask={removeTask}
+              totalTasks={totalTasks}
             />
           ))}
         </ScrollView>

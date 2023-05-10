@@ -1,38 +1,68 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useContext} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {item} from '../types/contextTypes';
+import {List, item} from '../types/contextTypes';
 import {ThemeContext} from '../context/ThemeContext';
+import Task from './Task';
 
 interface Props {
   category: string;
-  tasks: item[] | undefined;
+  selectedList: List;
   isOpen: boolean;
+  setCategory: (cat: string) => void;
+  handleTask: (task: item, category?: string, addNew?: boolean) => void;
+  removeTask: (id: string) => void;
+  totalTasks: number;
 }
 
-const Category = ({category, isOpen}: Props) => {
+const Category = ({
+  category,
+  isOpen,
+  setCategory,
+  selectedList,
+  handleTask,
+  removeTask,
+  totalTasks,
+}: Props) => {
+  const [currentList, setCurrentList] = useState<item[]>([]);
+
   const {
-    theme: {colors, dividerColor},
+    theme: {colors, dividerColor, listText},
   } = useContext(ThemeContext);
 
-  // TODO: Trabajar las listas internas por categoria
+  useEffect(() => {
+    setCurrentList(
+      selectedList.items?.filter(cat => cat.category === category) as [],
+    );
+  }, [selectedList]);
+
+  const handleCategory = () => {
+    if (isOpen) {
+      setCategory('');
+    } else {
+      setCategory(category);
+    }
+  };
 
   return (
-    <View
-      style={{
-        ...styles.card,
-        borderBottomColor: dividerColor,
-        backgroundColor: colors.background,
-      }}>
-      <Text style={{...styles.text}}>{category}</Text>
-      <Icon
-        name={isOpen ? 'chevron-up-outline' : 'chevron-down-outline'}
-        size={16}
-      />
-
-      {/* {selectedList.items?.map(item => {
+    <Pressable onPress={handleCategory}>
+      <View
+        style={{
+          ...styles.container,
+          borderBottomColor: dividerColor,
+          backgroundColor: colors.background,
+        }}>
+        <Text style={{...styles.text, color: listText}}>{category}</Text>
+        <Icon
+          name={isOpen ? 'chevron-down-outline' : 'chevron-forward-outline'}
+          size={20}
+          color={colors.primary}
+        />
+      </View>
+      {isOpen &&
+        currentList.map(item => {
           if (selectedList.showCompleted) {
             return (
               <Task
@@ -58,21 +88,23 @@ const Category = ({category, isOpen}: Props) => {
               );
             }
           }
-        })} */}
-    </View>
+        })}
+    </Pressable>
   );
 };
 
 export default Category;
 
 const styles = StyleSheet.create({
-  card: {
-    padding: 10,
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
+    padding: 10,
   },
   text: {
     fontWeight: '600',
+    fontSize: 18,
+    textTransform: 'capitalize',
   },
 });

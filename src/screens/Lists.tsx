@@ -10,6 +10,7 @@ import React, {useContext} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useTranslation} from 'react-i18next';
 
 import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
@@ -29,6 +30,8 @@ const Lists = ({
     theme: {colors, listText},
   } = useContext(ThemeContext);
   const {lists} = useContext(AppContext);
+
+  const {t} = useTranslation();
 
   const {top} = useSafeAreaInsets();
 
@@ -63,7 +66,7 @@ const Lists = ({
               ))
           ) : (
             <Text style={{...styles.nothingText, color: listText}}>
-              Nothing to show
+              {t('ui.nothingToShow')}
             </Text>
           )}
         </View>

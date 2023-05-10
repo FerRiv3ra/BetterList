@@ -1,5 +1,11 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useContext} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -15,6 +21,8 @@ import {CustomSwitch} from '../components/CustomSwitch';
 interface Props extends DrawerScreenProps<any, any> {}
 
 const SettingsScreen = ({navigation}: Props) => {
+  const [currentCurrency, setCurrentCurrency] = useState('');
+
   const {t, i18n} = useTranslation();
 
   const {top} = useSafeAreaInsets();
@@ -26,9 +34,16 @@ const SettingsScreen = ({navigation}: Props) => {
     actualTheme,
   } = useContext(ThemeContext);
 
-  const {setLanguage} = useContext(AppContext);
+  const {setLanguage, currency, setNewCurrency} = useContext(AppContext);
 
-  console.log(actualTheme);
+  useEffect(() => {
+    setCurrentCurrency(currency);
+  }, []);
+
+  const handleCurrency = () => {
+    if (!currentCurrency.length) return;
+    setNewCurrency(currentCurrency);
+  };
 
   return (
     <View
@@ -89,6 +104,29 @@ const SettingsScreen = ({navigation}: Props) => {
           />
         )}
       </View>
+      <View style={{marginTop: 30}}>
+        <Text
+          style={{
+            ...globalStyles.title,
+            color: colors.primary,
+            marginBottom: 10,
+          }}>
+          {t('settings.placeholder')}
+        </Text>
+        <TextInput
+          placeholder={t('settings.placeholder') || ''}
+          maxLength={1}
+          value={currentCurrency}
+          onChangeText={setCurrentCurrency}
+          onEndEditing={handleCurrency}
+          onSubmitEditing={handleCurrency}
+          style={{
+            ...styles.input,
+            borderColor: colors.primary,
+            color: colors.primary,
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -108,5 +146,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  input: {
+    fontSize: 16,
+    textAlign: 'center',
+    borderWidth: 2,
+    borderRadius: 5,
+    padding: 5,
+    fontWeight: '500',
   },
 });

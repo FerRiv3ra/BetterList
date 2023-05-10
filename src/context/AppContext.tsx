@@ -1,8 +1,8 @@
-import React, {createContext, useEffect, useReducer} from 'react';
+import React, {createContext, useEffect, useReducer, useState} from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import i18n from '../translations/config/i18NextConfig';
+
 import {listReducer} from './listReducer';
 import {List} from '../types/contextTypes';
 
@@ -12,15 +12,22 @@ type AppContextProps = {
   addList: (list: List) => void;
   updateList: (list: List) => void;
   removeList: (id: string) => void;
+  currency: string;
+  setNewCurrency: (curr: string) => void;
 };
 
 const AppContext = createContext({} as AppContextProps);
 
 export const AppProvider = ({children}: any) => {
   const [lists, dispatch] = useReducer(listReducer, []);
+  const [currency, setCurrency] = useState('');
 
   useEffect(() => {
     checkLanguage();
+  }, []);
+
+  useEffect(() => {
+    checkCurrency();
   }, []);
 
   const addList = (list: List) => {
@@ -62,6 +69,24 @@ export const AppProvider = ({children}: any) => {
     await AsyncStorage.setItem('lang', lang);
   };
 
+  const checkCurrency = async () => {
+    const currentCurrency = await AsyncStorage.getItem('currency');
+
+    if (!!currentCurrency) {
+      setCurrency(currentCurrency);
+    } else {
+      setCurrency('$');
+
+      await AsyncStorage.setItem('currency', '$');
+    }
+  };
+
+  const setNewCurrency = async (curr: string) => {
+    setCurrency(curr);
+
+    await AsyncStorage.setItem('currency', curr);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -70,6 +95,8 @@ export const AppProvider = ({children}: any) => {
         addList,
         updateList,
         removeList,
+        currency,
+        setNewCurrency,
       }}>
       {children}
     </AppContext.Provider>

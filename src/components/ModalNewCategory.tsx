@@ -40,8 +40,9 @@ const ModalNewCategory = ({modalVisible, setModalVisible, list}: Props) => {
 
     updateList({
       ...list,
-      categories: [...(list.categories as []), currentCategory],
+      categories: [...(list.categories as []), currentCategory.trim()],
     });
+    setCurrentCategory('');
     setModalVisible(false);
   };
 
@@ -56,6 +57,7 @@ const ModalNewCategory = ({modalVisible, setModalVisible, list}: Props) => {
         }}>
         <View style={{...styles.modalView, backgroundColor: colors.background}}>
           <TextInput
+            placeholder={t('modal.placeholder') || ''}
             value={currentCategory}
             onChangeText={setCurrentCategory}
             onSubmitEditing={() => Keyboard.dismiss()}

@@ -33,7 +33,7 @@ const MenuOptionsList = ({
   const ListAction: menuOption[] = [
     {text: 'addCategory', iconName: 'add-circle-outline'},
     {
-      text: list.showCompleted ? 'showCompleted' : 'hideCompleted',
+      text: list.showCompleted ? 'hideCompleted' : 'showCompleted',
       iconName: list.showCompleted ? 'eye-outline' : 'eye-off-outline',
     },
     {text: 'orderByName', iconName: 'swap-vertical-outline'},
