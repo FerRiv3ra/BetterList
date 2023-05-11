@@ -13,6 +13,8 @@ interface Props {
   progress?: Animated.AnimatedInterpolation<string | number>;
   dragX: Animated.AnimatedInterpolation<string | number>;
   task?: boolean;
+  category?: boolean;
+  categoryName?: string;
 }
 
 const RightAction = ({
@@ -20,6 +22,8 @@ const RightAction = ({
   closeSwipeable = () => {},
   dragX,
   task = false,
+  category = false,
+  categoryName,
 }: Props) => {
   const {
     theme: {colors, dividerColor},
@@ -27,7 +31,7 @@ const RightAction = ({
 
   const {t} = useTranslation();
 
-  const {handleDelete} = useModalList();
+  const {handleDelete, removeCategory} = useModalList();
 
   const scale = dragX.interpolate({
     inputRange: [-80, 0],
@@ -37,6 +41,11 @@ const RightAction = ({
 
   const deleteList = () => {
     closeSwipeable();
+
+    if (category) {
+      removeCategory(id, categoryName as string);
+      return;
+    }
 
     handleDelete(id);
   };

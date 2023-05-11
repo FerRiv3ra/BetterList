@@ -20,6 +20,8 @@ import {useList} from '../hooks/useList';
 import MenuOptionsList from '../components/MenuOptionsList';
 import ModalNewCategory from '../components/ModalNewCategory';
 import Category from '../components/Category';
+import {useControlSwipeable} from '../hooks/useControlSwipeable';
+import ListItems from '../components/ListItems';
 
 interface Props extends StackScreenProps<RootStackParams, 'List'> {}
 
@@ -36,6 +38,8 @@ const List = ({
   const {addTask, handleTask, removeTask, selectedList, total, totalTasks} =
     useList(listId);
   const {t} = useTranslation();
+
+  const {row, closeRow, closeSwipeable} = useControlSwipeable();
 
   const {
     theme: {colors},
@@ -70,7 +74,18 @@ const List = ({
           <Icon name="ellipsis-vertical" size={25} color={colors.card} />
         </TouchableOpacity>
       </Pressable>
-      {!!selectedList.categories?.length ? (
+      {selectedList.type === 'todo' ? (
+        <ScrollView>
+          <ListItems
+            currentList={selectedList.items as []}
+            selectedList={selectedList}
+            category={category}
+            handleTask={handleTask}
+            removeTask={removeTask}
+            totalTasks={totalTasks}
+          />
+        </ScrollView>
+      ) : !!selectedList.categories?.length ? (
         <ScrollView keyboardDismissMode="on-drag">
           {selectedList.categories.map((cat, index) => (
             <Category
@@ -82,6 +97,10 @@ const List = ({
               handleTask={handleTask}
               removeTask={removeTask}
               totalTasks={totalTasks}
+              index={index}
+              closeRow={closeRow}
+              row={row}
+              closeSwipeable={closeSwipeable}
             />
           ))}
         </ScrollView>
@@ -99,7 +118,7 @@ const List = ({
         </View>
       )}
       <ListFooter
-        onPress={() => addTask(category)}
+        onPress={() => addTask(category, selectedList.type)}
         total={total}
         type={selectedList.type}
       />

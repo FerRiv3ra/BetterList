@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 
 import AppContext from '../context/AppContext';
 import {generateID} from '../helpers/generateId';
-import {item, List} from '../types/contextTypes';
+import {item, List, ListType} from '../types/contextTypes';
 
 export const useList = (listId: string) => {
   const [selectedList, setSelectedList] = useState<List>({
@@ -75,7 +75,7 @@ export const useList = (listId: string) => {
       setAllTasks(updatedTaskList);
 
       if (addNew) {
-        addTask(category);
+        addTask(category, selectedList.type);
       }
 
       updateTotal(updatedTaskList);
@@ -91,8 +91,8 @@ export const useList = (listId: string) => {
     setAllTasks(updatedTaskList);
   };
 
-  const addTask = (category: string) => {
-    if (category.length < 2) {
+  const addTask = (category: string, listType: ListType) => {
+    if (listType === 'shopping' && category.length < 2) {
       Alert.alert(t('modal.error'), t('modal.errorCategoryMsg') || '');
       return;
     }

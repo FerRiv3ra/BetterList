@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ThemeContext} from '../context/ThemeContext';
 import MenuOption from './MenuOption';
 import {List} from '../types/contextTypes';
+import {useMenuOptions} from '../hooks/useMenuOptions';
 
 interface Props {
   visible: boolean;
@@ -13,11 +14,6 @@ interface Props {
   handleVisible: (visible: boolean) => void;
   openModalAddCategory: () => void;
 }
-
-export type menuOption = {
-  text: string;
-  iconName: string;
-};
 
 const MenuOptionsList = ({
   visible,
@@ -30,15 +26,7 @@ const MenuOptionsList = ({
     theme: {colors, currentTheme},
   } = useContext(ThemeContext);
 
-  const ListAction: menuOption[] = [
-    {text: 'addCategory', iconName: 'add-circle-outline'},
-    {
-      text: list.showCompleted ? 'hideCompleted' : 'showCompleted',
-      iconName: list.showCompleted ? 'eye-outline' : 'eye-off-outline',
-    },
-    {text: 'orderByName', iconName: 'swap-vertical-outline'},
-    {text: 'orderByPrice', iconName: 'swap-vertical-outline'},
-  ];
+  const {ListAction} = useMenuOptions(list);
 
   return (
     <Modal visible={visible} transparent>
@@ -63,6 +51,7 @@ const MenuOptionsList = ({
               key={opt.text}
               item={opt}
               list={list}
+              handleVisible={handleVisible}
               openModalAddCategory={openModalAddCategory}
             />
           ))}

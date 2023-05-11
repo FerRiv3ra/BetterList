@@ -10,13 +10,10 @@ import ListChangeNameModal from './ListChangeNameModal';
 import RightAction from './RightAction';
 import LeftAction from './LeftAction';
 import {List} from '../types/contextTypes';
+import {swipeableProps} from '../types/swipeableTypes';
 
-interface Props {
+interface Props extends swipeableProps {
   list: List;
-  index: number;
-  closeRow: (index: number) => void;
-  row: Swipeable[];
-  closeSwipeable: () => void;
 }
 
 const ListItem = ({list, index, closeRow, row, closeSwipeable}: Props) => {

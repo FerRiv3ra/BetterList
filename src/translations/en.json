@@ -16,6 +16,7 @@
     "confirmDelete": "Yes, delete",
     "delete": "Delete",
     "deleteMsg": "Deleted lists cannot be recovered",
+    "deleteMsgCategory": "If you delete a category, all articles in it are also deleted.",
     "edit": "Edit",
     "error": "Error",
     "errorCategory": "Category must have at least two characters",

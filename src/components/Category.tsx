@@ -2,12 +2,15 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import {GestureHandlerRootView, Swipeable} from 'react-native-gesture-handler';
 
-import {List, item} from '../types/contextTypes';
 import {ThemeContext} from '../context/ThemeContext';
-import Task from './Task';
+import RightAction from './RightAction';
+import ListItems from './ListItems';
+import {List, item} from '../types/contextTypes';
+import {swipeableProps} from '../types/swipeableTypes';
 
-interface Props {
+interface Props extends swipeableProps {
   category: string;
   selectedList: List;
   isOpen: boolean;
@@ -25,8 +28,14 @@ const Category = ({
   handleTask,
   removeTask,
   totalTasks,
+  index,
+  closeRow,
+  row,
+  closeSwipeable,
 }: Props) => {
   const [currentList, setCurrentList] = useState<item[]>([]);
+  const [total, setTotal] = useState(0);
+  const [completed, setCompleted] = useState(0);
 
   const {
     theme: {colors, dividerColor, listText},
@@ -35,6 +44,18 @@ const Category = ({
   useEffect(() => {
     setCurrentList(
       selectedList.items?.filter(cat => cat.category === category) as [],
+    );
+  }, [selectedList]);
+
+  useEffect(() => {
+    setTotal(
+      selectedList.items?.filter(cat => cat.category === category).length || 0,
+    );
+
+    setCompleted(
+      selectedList.items?.filter(
+        cat => cat.category === category && cat.completed,
+      ).length || 0,
     );
   }, [selectedList]);
 
@@ -47,49 +68,55 @@ const Category = ({
   };
 
   return (
-    <Pressable onPress={handleCategory}>
-      <View
-        style={{
-          ...styles.container,
-          borderBottomColor: dividerColor,
-          backgroundColor: colors.background,
-        }}>
-        <Text style={{...styles.text, color: listText}}>{category}</Text>
-        <Icon
-          name={isOpen ? 'chevron-down-outline' : 'chevron-forward-outline'}
-          size={20}
-          color={colors.primary}
+    <Swipeable
+      ref={ref => (row[index] = ref as any)}
+      onSwipeableOpen={() => closeRow(index)}
+      renderRightActions={(p, dragX) => (
+        <RightAction
+          id={selectedList.id}
+          dragX={dragX}
+          closeSwipeable={closeSwipeable}
+          category
+          categoryName={category}
         />
-      </View>
-      {isOpen &&
-        currentList.map(item => {
-          if (selectedList.showCompleted) {
-            return (
-              <Task
-                item={item}
-                key={item.index}
-                category={category}
-                handleTask={handleTask}
-                removeTask={removeTask}
-                total={totalTasks}
+      )}>
+      <GestureHandlerRootView>
+        <Pressable onPress={handleCategory}>
+          <View
+            style={{
+              ...styles.container,
+              borderBottomColor: dividerColor,
+              backgroundColor: colors.background,
+            }}>
+            <Text style={{...styles.text, color: listText}}>{category}</Text>
+            <View style={{...styles.counterContainer}}>
+              <Text
+                style={{
+                  ...styles.counter,
+                  color: listText,
+                }}>{`${completed}/${total}`}</Text>
+              <Icon
+                name={
+                  isOpen ? 'chevron-down-outline' : 'chevron-forward-outline'
+                }
+                size={20}
+                color={colors.primary}
               />
-            );
-          } else {
-            if (!item.completed) {
-              return (
-                <Task
-                  item={item}
-                  key={item.index}
-                  category={category}
-                  handleTask={handleTask}
-                  removeTask={removeTask}
-                  total={totalTasks}
-                />
-              );
-            }
-          }
-        })}
-    </Pressable>
+            </View>
+          </View>
+          {isOpen && (
+            <ListItems
+              currentList={currentList}
+              selectedList={selectedList}
+              category={category}
+              handleTask={handleTask}
+              removeTask={removeTask}
+              totalTasks={totalTasks}
+            />
+          )}
+        </Pressable>
+      </GestureHandlerRootView>
+    </Swipeable>
   );
 };
 
@@ -106,5 +133,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
     textTransform: 'capitalize',
+  },
+  counterContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  counter: {
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

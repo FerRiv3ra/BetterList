@@ -8,7 +8,7 @@ import {List} from '../types/contextTypes';
 
 export const useModalList = () => {
   const {t} = useTranslation();
-  const {updateList, removeList} = useContext(AppContext);
+  const {updateList, removeList, lists} = useContext(AppContext);
 
   const handleSave = (
     title: string,
@@ -32,8 +32,33 @@ export const useModalList = () => {
     ]);
   };
 
+  const removeCategory = (id: string, category: string) => {
+    Alert.alert(t('modal.warning'), `${t('modal.deleteMsgCategory')}`, [
+      {text: `${t('modal.cancel')}`},
+      {
+        text: `${t('modal.confirmDelete')}`,
+        onPress: () => handleDeleteCategory(id, category),
+      },
+    ]);
+  };
+
+  const handleDeleteCategory = (id: string, category: string) => {
+    const updatedList = lists.filter(list => list.id === id)[0];
+
+    updatedList.categories = updatedList.categories?.filter(
+      cat => cat !== category,
+    );
+
+    updatedList.items = updatedList.items?.filter(
+      item => item.category !== category,
+    );
+
+    updateList(updatedList);
+  };
+
   return {
     handleSave,
     handleDelete,
+    removeCategory,
   };
 };

@@ -8,17 +8,25 @@ import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
 import {useTask} from '../hooks/useTask';
 import RightAction from './RightAction';
-import {item} from '../types/contextTypes';
+import {ListType, item} from '../types/contextTypes';
 
 interface Props {
   item: item;
   category: string;
+  listType: ListType;
   handleTask: (task: item, category: string, addNew?: boolean) => void;
   removeTask: (id: string) => void;
   total: number;
 }
 
-const Task = ({item, category, handleTask, total, removeTask}: Props) => {
+const Task = ({
+  item,
+  category,
+  handleTask,
+  total,
+  removeTask,
+  listType,
+}: Props) => {
   const {title, setTitle, lastItem, price, handlePrice} = useTask(item, total);
 
   const {
@@ -51,7 +59,7 @@ const Task = ({item, category, handleTask, total, removeTask}: Props) => {
               color={listText}
             />
             <TextInput
-              multiline={typeof price !== 'string'}
+              multiline={listType === 'todo'}
               autoCapitalize="sentences"
               value={title}
               ref={lastItem}
@@ -68,7 +76,7 @@ const Task = ({item, category, handleTask, total, removeTask}: Props) => {
               }}
             />
           </Pressable>
-          {typeof price === 'string' && (
+          {listType === 'shopping' && (
             <View style={{...styles.bottomTextContainer}}>
               <Text style={{...styles.bottomText}}>{currency} </Text>
               <TextInput

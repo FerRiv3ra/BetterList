@@ -38,10 +38,13 @@ const ModalNewCategory = ({modalVisible, setModalVisible, list}: Props) => {
       return;
     }
 
-    updateList({
-      ...list,
-      categories: [...(list.categories as []), currentCategory.trim()],
-    });
+    if (!list.categories?.includes(currentCategory.trim())) {
+      updateList({
+        ...list,
+        categories: [...(list.categories as []), currentCategory.trim()],
+      });
+    }
+
     setCurrentCategory('');
     setModalVisible(false);
   };

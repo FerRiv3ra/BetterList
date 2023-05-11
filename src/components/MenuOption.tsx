@@ -6,16 +6,23 @@ import {useTranslation} from 'react-i18next';
 
 import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
-import {menuOption} from './MenuOptionsList';
+
 import {List} from '../types/contextTypes';
+import {menuOption} from '../hooks/useMenuOptions';
 
 interface Props {
   item: menuOption;
   list: List;
   openModalAddCategory: () => void;
+  handleVisible: (visible: boolean) => void;
 }
 
-const MenuOption = ({item, list, openModalAddCategory}: Props) => {
+const MenuOption = ({
+  item,
+  list,
+  handleVisible,
+  openModalAddCategory,
+}: Props) => {
   const {t} = useTranslation();
   const {
     theme: {dividerColor, listText},
@@ -29,6 +36,7 @@ const MenuOption = ({item, list, openModalAddCategory}: Props) => {
 
     if (item.text === 'showCompleted' || item.text === 'hideCompleted') {
       updateList({...list, showCompleted: !list.showCompleted});
+      handleVisible(false);
     }
   };
 

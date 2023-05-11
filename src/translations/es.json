@@ -16,6 +16,7 @@
     "confirmDelete": "Sí, eliminar",
     "delete": "Eliminar",
     "deleteMsg": "Las listas eliminadas no se pueden recuperar",
+    "deleteMsgCategory": "Si elimina una categoría, todos los artículos que contiene también se eliminan.",
     "edit": "Editar",
     "error": "Error",
     "errorCategory": "La categoría debe tener al menos dos caracteres",
