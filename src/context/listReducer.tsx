@@ -3,7 +3,8 @@ import {List} from '../types/contextTypes';
 export type ListAction =
   | {type: 'add-list'; payload: List}
   | {type: 'update-list'; payload: List}
-  | {type: 'remove-list'; payload: string};
+  | {type: 'remove-list'; payload: string}
+  | {type: 'load-data'; payload: List[]};
 
 export const listReducer = (state: List[], action: ListAction): List[] => {
   switch (action.type) {
@@ -19,6 +20,9 @@ export const listReducer = (state: List[], action: ListAction): List[] => {
 
     case 'remove-list':
       return state.filter(list => list.id !== action.payload);
+
+    case 'load-data':
+      return [...state, ...action.payload];
 
     default:
       return state;

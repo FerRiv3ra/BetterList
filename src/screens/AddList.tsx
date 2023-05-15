@@ -46,6 +46,7 @@ const AddList = ({navigation}: Props) => {
       items: [],
       showCompleted: true,
       title: title.trim(),
+      total: 0,
       type: type as ListType,
     };
 

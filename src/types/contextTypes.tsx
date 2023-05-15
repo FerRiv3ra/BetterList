@@ -5,7 +5,7 @@ export type List = {
   items?: item[];
   showCompleted: boolean;
   title: string;
-  total?: number;
+  total: number;
   type: ListType;
 };
 
