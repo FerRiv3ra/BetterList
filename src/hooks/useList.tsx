@@ -13,7 +13,7 @@ export const useList = (listId: string) => {
     type: 'shopping',
     id: '',
     showCompleted: true,
-    total: undefined,
+    total: 0,
   });
   const [allTasks, setAllTasks] = useState<item[]>([]);
   const [total, setTotal] = useState<number | undefined>(0);
@@ -58,6 +58,17 @@ export const useList = (listId: string) => {
   };
 
   const handleTask = (task: item, category: string = '', addNew = false) => {
+    const currentTask = allTasks.filter(t => t.id === task.id)[0];
+
+    if (addNew) {
+      addTask(category, selectedList.type);
+    }
+
+    if (!!currentTask) {
+      if (currentTask.title === task.title && currentTask.price === task.price)
+        return;
+    }
+
     if (!!task.title.length) {
       const updatedTaskList = allTasks.map(t => {
         if (t.index === task.index) {
@@ -73,10 +84,6 @@ export const useList = (listId: string) => {
 
       updateList({...selectedList, items: updatedTaskList});
       setAllTasks(updatedTaskList);
-
-      if (addNew) {
-        addTask(category, selectedList.type);
-      }
 
       updateTotal(updatedTaskList);
     } else {

@@ -90,11 +90,13 @@ const Category = ({
             }}>
             <Text style={{...styles.text, color: listText}}>{category}</Text>
             <View style={{...styles.counterContainer}}>
-              <Text
-                style={{
-                  ...styles.counter,
-                  color: listText,
-                }}>{`${completed}/${total}`}</Text>
+              {completed !== total && (
+                <Text
+                  style={{
+                    ...styles.counter,
+                    color: listText,
+                  }}>{`${completed}/${total}`}</Text>
+              )}
               <Icon
                 name={
                   isOpen ? 'chevron-down-outline' : 'chevron-forward-outline'

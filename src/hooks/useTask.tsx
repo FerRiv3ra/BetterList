@@ -4,7 +4,7 @@ import {item} from '../types/contextTypes';
 export const useTask = (item: item, total: number) => {
   const [title, setTitle] = useState(item.title);
   const [price, setPrice] = useState(
-    typeof item.price === 'number' ? `${item.price}` : undefined,
+    `${item.price === 0 ? '0' : item.price?.toFixed(2)}`,
   );
 
   const lastItem = useRef<any>(null);

@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     marginTop: 70,
+    marginBottom: 30,
     marginHorizontal: 20,
   },
   nothingText: {

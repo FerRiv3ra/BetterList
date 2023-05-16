@@ -6,6 +6,18 @@ export const quickStart = async () => {
       path: 'betterLists',
       schema: [
         {
+          name: 'item',
+          properties: {
+            id: 'string',
+            index: 'int',
+            category: 'string',
+            completed: 'bool',
+            price: {type: 'float', default: 0.0},
+            title: 'string',
+          },
+          primaryKey: 'id',
+        },
+        {
           name: 'lists',
           properties: {
             id: 'string',
@@ -15,8 +27,9 @@ export const quickStart = async () => {
             },
             icon: 'string',
             items: {
-              type: 'string[]',
+              type: 'list',
               default: [],
+              objectType: 'item',
             },
             showCompleted: {type: 'bool', default: true},
             title: 'string',

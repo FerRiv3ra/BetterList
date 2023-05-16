@@ -42,9 +42,9 @@ export const AppProvider = ({children}: any) => {
     try {
       const realm = await Realm.open({path: 'betterLists'});
 
-      const listsDB: any = realm.objects<List[]>('lists').toJSON();
+      const listsDB = realm.objects<List[]>('lists').toJSON();
 
-      dispatch({type: 'load-data', payload: listsDB});
+      dispatch({type: 'load-data', payload: listsDB as List[]});
 
       // const orderLists = listsDB.sorted([
       //   ['pts', true],
@@ -58,8 +58,6 @@ export const AppProvider = ({children}: any) => {
       console.error('Failed to open the realm Context init', error.message);
     }
   };
-
-  console.log(lists);
 
   const addList = async (list: List) => {
     dispatch({
@@ -80,18 +78,50 @@ export const AppProvider = ({children}: any) => {
     }
   };
 
-  const updateList = (list: List) => {
+  const updateList = async (list: List) => {
     dispatch({
       type: 'update-list',
       payload: list,
     });
+
+    try {
+      const realm = await Realm.open({path: 'betterLists'});
+
+      realm.write(() => {
+        const tempList = realm.objectForPrimaryKey<List>('lists', list.id);
+
+        tempList!.categories = list.categories;
+        tempList!.items = list.items;
+        tempList!.showCompleted = list.showCompleted;
+        tempList!.title = list.title;
+        tempList!.total = list.total;
+      });
+
+      realm.close();
+    } catch (error: any) {
+      console.error('Failed to open the realm update', error.message);
+    }
   };
 
-  const removeList = (id: string) => {
+  const removeList = async (id: string) => {
     dispatch({
       type: 'remove-list',
       payload: id,
     });
+
+    try {
+      const realm = await Realm.open({path: 'betterLists'});
+
+      const currentList = realm.objectForPrimaryKey<List>('lists', id);
+
+      realm.write(() => {
+        realm.delete(currentList);
+      });
+
+      realm.close();
+    } catch (error: any) {
+      console.error('Failed to open the realm delete', error.message);
+    }
   };
 
   const checkLanguage = async () => {
