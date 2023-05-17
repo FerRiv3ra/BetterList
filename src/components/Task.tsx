@@ -59,7 +59,6 @@ const Task = ({
               color={listText}
             />
             <TextInput
-              multiline={listType === 'todo'}
               autoCapitalize="sentences"
               value={title}
               ref={lastItem}

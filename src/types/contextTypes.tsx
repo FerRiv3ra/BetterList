@@ -6,6 +6,8 @@ export type List = {
   showCompleted: boolean;
   title: string;
   total: number;
+  orderByNameAsc: boolean;
+  orderByPriceAsc: boolean;
   type: ListType;
 };
 
@@ -16,6 +18,7 @@ export type item = {
   index: number;
   category: string;
   completed: boolean;
+  listId: string;
   price?: number;
   title: string;
 };

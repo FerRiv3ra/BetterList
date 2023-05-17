@@ -13,6 +13,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
+import {v4 as uuidv4} from 'uuid';
 
 import {ThemeContext} from '../context/ThemeContext';
 import AppContext from '../context/AppContext';
@@ -20,7 +21,6 @@ import {RootStackParams} from '../navigator/StackNavigator';
 import {globalStyles} from '../theme/globalStyles';
 import SegmentedControl from '../components/SegmentedControls';
 import ListIcons from '../components/ListIcons';
-import {generateID} from '../helpers/generateId';
 import {List, ListType} from '../types/contextTypes';
 
 interface Props extends StackScreenProps<RootStackParams, 'AddList'> {}
@@ -40,10 +40,12 @@ const AddList = ({navigation}: Props) => {
 
   const handleAdd = () => {
     const newList: List = {
-      id: generateID(),
+      id: uuidv4(),
       categories: [],
       icon: type === 'shopping' ? 'cart-outline' : selectedIcon,
       items: [],
+      orderByNameAsc: true,
+      orderByPriceAsc: true,
       showCompleted: true,
       title: title.trim(),
       total: 0,

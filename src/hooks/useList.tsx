@@ -2,9 +2,9 @@ import {Alert} from 'react-native';
 import {useContext, useEffect, useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
+import {v4 as uuidv4} from 'uuid';
 
 import AppContext from '../context/AppContext';
-import {generateID} from '../helpers/generateId';
 import {item, List, ListType} from '../types/contextTypes';
 
 export const useList = (listId: string) => {
@@ -12,6 +12,8 @@ export const useList = (listId: string) => {
     title: '',
     type: 'shopping',
     id: '',
+    orderByNameAsc: true,
+    orderByPriceAsc: true,
     showCompleted: true,
     total: 0,
   });
@@ -60,12 +62,22 @@ export const useList = (listId: string) => {
   const handleTask = (task: item, category: string = '', addNew = false) => {
     const currentTask = allTasks.filter(t => t.id === task.id)[0];
 
-    if (addNew) {
+    if (addNew && !!task.title.length) {
       addTask(category, selectedList.type);
+      return;
+    }
+
+    if (!task.title.length) {
+      removeTask(task.id);
+      return;
     }
 
     if (!!currentTask) {
-      if (currentTask.title === task.title && currentTask.price === task.price)
+      if (
+        currentTask.title === task.title &&
+        currentTask.price === task.price &&
+        currentTask.completed === task.completed
+      )
         return;
     }
 
@@ -86,8 +98,6 @@ export const useList = (listId: string) => {
       setAllTasks(updatedTaskList);
 
       updateTotal(updatedTaskList);
-    } else {
-      removeTask(task.id);
     }
   };
 
@@ -108,9 +118,10 @@ export const useList = (listId: string) => {
       index: allTasks.length + 1,
       title: '',
       category,
+      listId,
       completed: false,
       price: 0.0,
-      id: generateID(),
+      id: uuidv4(),
     };
 
     setAllTasks([...allTasks, newTask]);

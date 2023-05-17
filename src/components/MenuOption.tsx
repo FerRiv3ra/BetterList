@@ -27,7 +27,7 @@ const MenuOption = ({
   const {
     theme: {dividerColor, listText},
   } = useContext(ThemeContext);
-  const {updateList} = useContext(AppContext);
+  const {updateList, sortList} = useContext(AppContext);
 
   const handlePress = () => {
     if (item.text === 'addCategory') {
@@ -37,6 +37,14 @@ const MenuOption = ({
     if (item.text === 'showCompleted' || item.text === 'hideCompleted') {
       updateList({...list, showCompleted: !list.showCompleted});
       handleVisible(false);
+    }
+
+    if (item.text === 'orderByName') {
+      sortList(list.id, list.orderByNameAsc, 'byName');
+    }
+
+    if (item.text === 'orderByPrice') {
+      sortList(list.id, list.orderByPriceAsc, 'byPrice');
     }
   };
 

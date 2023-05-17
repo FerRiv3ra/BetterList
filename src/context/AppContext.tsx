@@ -5,7 +5,7 @@ import i18n from '../translations/config/i18NextConfig';
 import Realm from 'realm';
 
 import {listReducer} from './listReducer';
-import {List} from '../types/contextTypes';
+import {List, item} from '../types/contextTypes';
 import {quickStart} from '../config/realmConfig';
 
 type AppContextProps = {
@@ -15,6 +15,11 @@ type AppContextProps = {
   updateList: (list: List) => void;
   removeList: (id: string) => void;
   currency: string;
+  sortList: (
+    listId: string,
+    asc: boolean,
+    type: 'byName' | 'byPrice',
+  ) => Promise<void>;
   setNewCurrency: (curr: string) => void;
 };
 
@@ -92,6 +97,7 @@ export const AppProvider = ({children}: any) => {
 
         tempList!.categories = list.categories;
         tempList!.items = list.items;
+        tempList!.orderByNameAsc = list.orderByNameAsc;
         tempList!.showCompleted = list.showCompleted;
         tempList!.title = list.title;
         tempList!.total = list.total;
@@ -121,6 +127,35 @@ export const AppProvider = ({children}: any) => {
       realm.close();
     } catch (error: any) {
       console.error('Failed to open the realm delete', error.message);
+    }
+  };
+
+  const sortList = async (
+    listId: string,
+    asc: boolean,
+    type: 'byName' | 'byPrice',
+  ) => {
+    const currentList = lists.filter(list => list.id === listId)[0];
+
+    try {
+      const realm = await Realm.open({path: 'betterLists'});
+
+      const items = realm
+        .objects<item[]>('item')
+        .filtered(`listId = "${listId}" AND title != ""`)
+        .sorted(type === 'byName' ? 'title' : 'price', !asc)
+        .toJSON();
+
+      realm.close();
+
+      updateList({
+        ...currentList,
+        orderByNameAsc: type === 'byName' ? !asc : asc,
+        orderByPriceAsc: type === 'byPrice' ? !asc : asc,
+        items: items as item[],
+      });
+    } catch (error: any) {
+      console.error('Failed to open the realm sortByName', error.message);
     }
   };
 
@@ -168,6 +203,7 @@ export const AppProvider = ({children}: any) => {
         addList,
         updateList,
         removeList,
+        sortList,
         currency,
         setNewCurrency,
       }}>
