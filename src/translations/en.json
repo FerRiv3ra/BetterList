@@ -42,9 +42,11 @@
   },
   "menu": {
     "addCategory": "Add category",
-    "showCompleted": "Show completed",
+    "collapseCategories": "Collapse all categories",
+    "expandCategoies": "Expand all categories",
     "hideCompleted": "Hide completed",
     "orderByName": "Order by name",
-    "orderByPrice": "Order by price"
+    "orderByPrice": "Order by price",
+    "showCompleted": "Show completed"
   }
 }

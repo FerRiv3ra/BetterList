@@ -26,6 +26,7 @@ export const quickStart = async () => {
               type: 'string[]',
               default: [],
             },
+            expandAll: {type: 'bool', default: false},
             icon: 'string',
             items: {
               type: 'list',

@@ -1,6 +1,7 @@
 export type List = {
   id: string;
   categories?: string[];
+  expandAll: boolean;
   icon?: string;
   items?: item[];
   showCompleted: boolean;

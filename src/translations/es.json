@@ -42,9 +42,11 @@
   },
   "menu": {
     "addCategory": "Agregar categoría",
-    "showCompleted": "Mostrar completados",
+    "collapseCategories": "Contraer todas las categorías",
+    "expandCategoies": "Expandir todas las categorías",
     "hideCompleted": "Ocultar completados",
     "orderByName": "Ordenar por nombre",
-    "orderByPrice": "Ordenar por precio"
+    "orderByPrice": "Ordenar por precio",
+    "showCompleted": "Mostrar completados"
   }
 }

@@ -14,6 +14,12 @@ export const useMenuOptions = (list: List) => {
             text: list.showCompleted ? 'hideCompleted' : 'showCompleted',
             iconName: list.showCompleted ? 'eye-outline' : 'eye-off-outline',
           },
+          {
+            text: list.expandAll ? 'collapseCategories' : 'expandCategoies',
+            iconName: list.expandAll
+              ? 'chevron-up-outline'
+              : 'chevron-down-outline',
+          },
           {text: 'orderByName', iconName: 'swap-vertical-outline'},
           {text: 'orderByPrice', iconName: 'swap-vertical-outline'},
         ]

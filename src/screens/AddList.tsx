@@ -42,6 +42,7 @@ const AddList = ({navigation}: Props) => {
     const newList: List = {
       id: uuidv4(),
       categories: [],
+      expandAll: false,
       icon: type === 'shopping' ? 'cart-outline' : selectedIcon,
       items: [],
       orderByNameAsc: true,

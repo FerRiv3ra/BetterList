@@ -11,6 +11,7 @@ export const useList = (listId: string) => {
   const [selectedList, setSelectedList] = useState<List>({
     title: '',
     type: 'shopping',
+    expandAll: false,
     id: '',
     orderByNameAsc: true,
     orderByPriceAsc: true,

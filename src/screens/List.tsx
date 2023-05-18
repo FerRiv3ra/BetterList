@@ -22,6 +22,7 @@ import ModalNewCategory from '../components/ModalNewCategory';
 import Category from '../components/Category';
 import {useControlSwipeable} from '../hooks/useControlSwipeable';
 import ListItems from '../components/ListItems';
+import {KeyboardAvoidingScrollView} from '../components/KeyboardAvoidingScrollView';
 
 interface Props extends StackScreenProps<RootStackParams, 'List'> {}
 
@@ -75,7 +76,7 @@ const List = ({
         </TouchableOpacity>
       </Pressable>
       {selectedList.type === 'todo' ? (
-        <ScrollView>
+        <KeyboardAvoidingScrollView keyboardDismissMode="on-drag">
           <ListItems
             currentList={selectedList.items as []}
             selectedList={selectedList}
@@ -84,9 +85,9 @@ const List = ({
             removeTask={removeTask}
             totalTasks={totalTasks}
           />
-        </ScrollView>
+        </KeyboardAvoidingScrollView>
       ) : !!selectedList.categories?.length ? (
-        <ScrollView keyboardDismissMode="on-drag">
+        <KeyboardAvoidingScrollView keyboardDismissMode="on-drag">
           {selectedList.categories.map((cat, index) => (
             <Category
               key={index}
@@ -103,7 +104,7 @@ const List = ({
               closeSwipeable={closeSwipeable}
             />
           ))}
-        </ScrollView>
+        </KeyboardAvoidingScrollView>
       ) : (
         <View style={{...styles.noCategories}}>
           <Icon.Button

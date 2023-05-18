@@ -39,6 +39,11 @@ const MenuOption = ({
       handleVisible(false);
     }
 
+    if (item.text === 'collapseCategories' || item.text === 'expandCategoies') {
+      updateList({...list, expandAll: !list.expandAll});
+      handleVisible(false);
+    }
+
     if (item.text === 'orderByName') {
       sortList(list.id, list.orderByNameAsc, 'byName');
     }
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    width: 230,
+    width: 290,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

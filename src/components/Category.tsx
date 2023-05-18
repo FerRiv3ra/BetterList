@@ -88,7 +88,13 @@ const Category = ({
               borderBottomColor: dividerColor,
               backgroundColor: colors.background,
             }}>
-            <Text style={{...styles.text, color: listText}}>{category}</Text>
+            <Text
+              style={{
+                ...styles.text,
+                color: isOpen ? colors.primary : listText,
+              }}>
+              {category}
+            </Text>
             <View style={{...styles.counterContainer}}>
               {completed !== total && (
                 <Text
@@ -99,14 +105,16 @@ const Category = ({
               )}
               <Icon
                 name={
-                  isOpen ? 'chevron-down-outline' : 'chevron-forward-outline'
+                  selectedList.expandAll || isOpen
+                    ? 'chevron-down-outline'
+                    : 'chevron-forward-outline'
                 }
                 size={20}
                 color={colors.primary}
               />
             </View>
           </View>
-          {isOpen && (
+          {(selectedList.expandAll || isOpen) && (
             <ListItems
               currentList={currentList}
               selectedList={selectedList}
