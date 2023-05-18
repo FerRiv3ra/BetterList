@@ -15,7 +15,7 @@ export const useMenuOptions = (list: List) => {
             iconName: list.showCompleted ? 'eye-outline' : 'eye-off-outline',
           },
           {
-            text: list.expandAll ? 'collapseCategories' : 'expandCategoies',
+            text: list.expandAll ? 'collapseCategories' : 'expandCategories',
             iconName: list.expandAll
               ? 'chevron-up-outline'
               : 'chevron-down-outline',

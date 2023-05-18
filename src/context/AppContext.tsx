@@ -97,6 +97,7 @@ export const AppProvider = ({children}: any) => {
 
         tempList!.categories = list.categories;
         tempList!.items = list.items;
+        tempList!.expandAll = list.expandAll;
         tempList!.orderByNameAsc = list.orderByNameAsc;
         tempList!.showCompleted = list.showCompleted;
         tempList!.title = list.title;

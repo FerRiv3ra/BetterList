@@ -43,7 +43,7 @@
   "menu": {
     "addCategory": "Add category",
     "collapseCategories": "Collapse all categories",
-    "expandCategoies": "Expand all categories",
+    "expandCategories": "Expand all categories",
     "hideCompleted": "Hide completed",
     "orderByName": "Order by name",
     "orderByPrice": "Order by price",

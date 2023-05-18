@@ -39,7 +39,10 @@ const MenuOption = ({
       handleVisible(false);
     }
 
-    if (item.text === 'collapseCategories' || item.text === 'expandCategoies') {
+    if (
+      item.text === 'collapseCategories' ||
+      item.text === 'expandCategories'
+    ) {
       updateList({...list, expandAll: !list.expandAll});
       handleVisible(false);
     }

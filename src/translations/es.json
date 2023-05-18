@@ -43,7 +43,7 @@
   "menu": {
     "addCategory": "Agregar categoría",
     "collapseCategories": "Contraer todas las categorías",
-    "expandCategoies": "Expandir todas las categorías",
+    "expandCategories": "Expandir todas las categorías",
     "hideCompleted": "Ocultar completados",
     "orderByName": "Ordenar por nombre",
     "orderByPrice": "Ordenar por precio",
