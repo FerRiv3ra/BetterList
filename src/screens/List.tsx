@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {RootStackParams} from '../navigator/StackNavigator';
 import {ThemeContext} from '../context/ThemeContext';
+import AppContext from '../context/AppContext';
 import ListFooter from '../components/ListFooter';
 import {useList} from '../hooks/useList';
 import MenuOptionsList from '../components/MenuOptionsList';
@@ -23,6 +24,7 @@ import Category from '../components/Category';
 import {useControlSwipeable} from '../hooks/useControlSwipeable';
 import ListItems from '../components/ListItems';
 import {KeyboardAvoidingScrollView} from '../components/KeyboardAvoidingScrollView';
+import {FooterBannerAd} from '../components/FooterBannerAd';
 
 interface Props extends StackScreenProps<RootStackParams, 'List'> {}
 
@@ -45,6 +47,8 @@ const List = ({
   const {
     theme: {colors},
   } = useContext(ThemeContext);
+  const {showAds} = useContext(AppContext);
+
   const {top} = useSafeAreaInsets();
 
   const openModalAddCategory = () => {
@@ -118,6 +122,9 @@ const List = ({
           </Icon.Button>
         </View>
       )}
+
+      {showAds && <FooterBannerAd bottom={75} />}
+
       <ListFooter
         onPress={() => addTask(category, selectedList.type)}
         total={total}

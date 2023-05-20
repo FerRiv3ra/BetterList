@@ -28,4 +28,10 @@ export const globalStyles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
+
+  // ** Ads **
+  bannerAd: {
+    position: 'absolute',
+    alignSelf: 'center',
+  },
 });

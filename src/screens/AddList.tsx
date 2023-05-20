@@ -22,6 +22,8 @@ import {globalStyles} from '../theme/globalStyles';
 import SegmentedControl from '../components/SegmentedControls';
 import ListIcons from '../components/ListIcons';
 import {List, ListType} from '../types/contextTypes';
+import {FooterBannerAd} from '../components/FooterBannerAd';
+import {useAdUnit} from '../hooks/useAdUnit';
 
 interface Props extends StackScreenProps<RootStackParams, 'AddList'> {}
 
@@ -30,9 +32,11 @@ const AddList = ({navigation}: Props) => {
   const [title, setTitle] = useState('');
   const [selectedIcon, setSelectedIcon] = useState('list');
 
-  const {addList} = useContext(AppContext);
+  const {addList, showAds} = useContext(AppContext);
   const {t} = useTranslation();
   const {top} = useSafeAreaInsets();
+
+  const {interstitial, loaded} = useAdUnit();
 
   const {
     theme: {colors, listText},
@@ -54,6 +58,10 @@ const AddList = ({navigation}: Props) => {
     };
 
     addList(newList);
+
+    if (loaded) {
+      interstitial.show();
+    }
 
     navigation.goBack();
   };
@@ -120,7 +128,11 @@ const AddList = ({navigation}: Props) => {
         <View style={{flex: 1}} />
 
         <TouchableOpacity
-          style={{...styles.saveBtn, backgroundColor: colors.primary}}
+          style={{
+            ...styles.saveBtn,
+            backgroundColor: colors.primary,
+            marginBottom: showAds ? 70 : 50,
+          }}
           onPress={handleAdd}
           activeOpacity={0.7}>
           <Icon name="create-outline" color={colors.text} size={18} />
@@ -130,6 +142,8 @@ const AddList = ({navigation}: Props) => {
           </Text>
         </TouchableOpacity>
       </Pressable>
+
+      {showAds && <FooterBannerAd />}
     </View>
   );
 };
@@ -152,7 +166,6 @@ const styles = StyleSheet.create({
     borderColor: '#6663F1',
   },
   saveBtn: {
-    marginBottom: 50,
     marginHorizontal: 20,
     padding: 15,
     borderRadius: 20,

@@ -3,6 +3,11 @@ import React, {createContext, useEffect, useReducer, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '../translations/config/i18NextConfig';
 import Realm from 'realm';
+import {
+  AdsConsent,
+  AdsConsentStatus,
+  MobileAds,
+} from 'react-native-google-mobile-ads';
 
 import {listReducer} from './listReducer';
 import {List, item} from '../types/contextTypes';
@@ -20,6 +25,7 @@ type AppContextProps = {
     asc: boolean,
     type: 'byName' | 'byPrice',
   ) => Promise<void>;
+  showAds: boolean;
   setNewCurrency: (curr: string) => void;
 };
 
@@ -28,9 +34,14 @@ const AppContext = createContext({} as AppContextProps);
 export const AppProvider = ({children}: any) => {
   const [lists, dispatch] = useReducer(listReducer, []);
   const [currency, setCurrency] = useState('');
+  const [showAds, setShowAds] = useState(true);
 
   useEffect(() => {
     init();
+  }, []);
+
+  useEffect(() => {
+    loadAdsEngine();
   }, []);
 
   useEffect(() => {
@@ -41,6 +52,7 @@ export const AppProvider = ({children}: any) => {
     checkCurrency();
   }, []);
 
+  // RealmDB init
   const init = async () => {
     await quickStart();
 
@@ -51,17 +63,26 @@ export const AppProvider = ({children}: any) => {
 
       dispatch({type: 'load-data', payload: listsDB as List[]});
 
-      // const orderLists = listsDB.sorted([
-      //   ['pts', true],
-      //   ['gd', true],
-      //   ['gf', true],
-      // ]);
-
       // SplashScreen.hide();
       realm.close();
     } catch (error: any) {
       console.error('Failed to open the realm Context init', error.message);
     }
+  };
+
+  // Init add engine
+  const loadAdsEngine = async () => {
+    const consentInfo = await AdsConsent.requestInfoUpdate();
+    if (
+      consentInfo.isConsentFormAvailable &&
+      consentInfo.status === AdsConsentStatus.REQUIRED
+    ) {
+      const {status} = await AdsConsent.showForm();
+
+      await AsyncStorage.setItem('adsStatus', status);
+    }
+
+    MobileAds().initialize().then(console.log);
   };
 
   const addList = async (list: List) => {
@@ -207,6 +228,7 @@ export const AppProvider = ({children}: any) => {
         sortList,
         currency,
         setNewCurrency,
+        showAds,
       }}>
       {children}
     </AppContext.Provider>

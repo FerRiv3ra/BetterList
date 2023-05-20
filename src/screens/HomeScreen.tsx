@@ -17,6 +17,7 @@ import AppContext from '../context/AppContext';
 import {globalStyles} from '../theme/globalStyles';
 import ButtonLarge from '../components/ButtonLarge';
 import FloatingButton from '../components/FloatingButton';
+import {FooterBannerAd} from '../components/FooterBannerAd';
 
 const height = Dimensions.get('window').height;
 
@@ -31,7 +32,7 @@ const HomeScreen = ({navigation}: Props) => {
 
   const {t} = useTranslation();
 
-  const {lists} = useContext(AppContext);
+  const {lists, showAds} = useContext(AppContext);
 
   return (
     <View style={{flex: 1}}>
@@ -72,6 +73,8 @@ const HomeScreen = ({navigation}: Props) => {
         />
       </View>
       <FloatingButton route={'AddList'} />
+
+      {showAds && <FooterBannerAd />}
     </View>
   );
 };

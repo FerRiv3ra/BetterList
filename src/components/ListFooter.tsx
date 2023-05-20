@@ -29,7 +29,7 @@ const ListFooter = ({onPress, total, type}: Props) => {
     <View
       style={{
         ...styles.container,
-        paddingBottom: bottom,
+        paddingBottom: bottom + 5,
         backgroundColor: colors.primary,
       }}>
       <TouchableOpacity activeOpacity={0.6} onPress={onPress} style={{flex: 1}}>

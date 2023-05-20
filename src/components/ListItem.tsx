@@ -59,7 +59,7 @@ const ListItem = ({list, index, closeRow, row, closeSwipeable}: Props) => {
             borderBottomColor: dividerColor,
             backgroundColor: colors.background,
           }}>
-          <Icon name={list.icon || 'cart-outline'} size={20} color={listText} />
+          <Icon name={list.icon || 'cart-outline'} size={22} color={listText} />
           <Text style={{...styles.textItem, color: listText}}>
             {' '}
             {list.title}
@@ -86,12 +86,13 @@ export default ListItem;
 const styles = StyleSheet.create({
   itemContainer: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 8,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
   },
   textItem: {
-    fontWeight: '600',
+    fontWeight: '500',
+    fontSize: 16,
   },
 });

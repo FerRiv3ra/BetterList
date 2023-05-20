@@ -17,6 +17,7 @@ import AppContext from '../context/AppContext';
 import {RootStackParams} from '../navigator/StackNavigator';
 import ListItem from '../components/ListItem';
 import {useControlSwipeable} from '../hooks/useControlSwipeable';
+import {FooterBannerAd} from '../components/FooterBannerAd';
 
 interface Props extends StackScreenProps<RootStackParams, 'Lists'> {}
 
@@ -29,7 +30,7 @@ const Lists = ({
   const {
     theme: {colors, listText},
   } = useContext(ThemeContext);
-  const {lists} = useContext(AppContext);
+  const {lists, showAds} = useContext(AppContext);
 
   const {t} = useTranslation();
 
@@ -71,6 +72,8 @@ const Lists = ({
           )}
         </View>
       </ScrollView>
+
+      {showAds && <FooterBannerAd />}
     </View>
   );
 };

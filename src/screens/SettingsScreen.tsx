@@ -17,6 +17,7 @@ import AppContext from '../context/AppContext';
 import {globalStyles} from '../theme/globalStyles';
 import SegmentedControl from '../components/SegmentedControls';
 import {CustomSwitch} from '../components/CustomSwitch';
+import {FooterBannerAd} from '../components/FooterBannerAd';
 
 interface Props extends DrawerScreenProps<any, any> {}
 
@@ -34,7 +35,8 @@ const SettingsScreen = ({navigation}: Props) => {
     actualTheme,
   } = useContext(ThemeContext);
 
-  const {setLanguage, currency, setNewCurrency} = useContext(AppContext);
+  const {setLanguage, currency, setNewCurrency, showAds} =
+    useContext(AppContext);
 
   useEffect(() => {
     setCurrentCurrency(currency);
@@ -127,6 +129,8 @@ const SettingsScreen = ({navigation}: Props) => {
           }}
         />
       </View>
+
+      {showAds && <FooterBannerAd />}
     </View>
   );
 };
