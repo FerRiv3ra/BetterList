@@ -12,9 +12,12 @@ import {ThemeContext} from '../context/ThemeContext';
 import {StackNavigator} from './StackNavigator';
 import {globalStyles} from '../theme/globalStyles';
 import SettingsScreen from '../screens/SettingsScreen';
+import {useTranslation} from 'react-i18next';
+import PremiumScreen from '../screens/PremiumScreen';
 
 export type RootDrawerParams = {
   Home: undefined;
+  Premium: undefined;
   Settings: undefined;
 };
 
@@ -26,6 +29,7 @@ export const DrawerNavigator = () => {
       screenOptions={{headerShown: false}}
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Home" component={StackNavigator} />
+      <Drawer.Screen name="Premium" component={PremiumScreen} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
     </Drawer.Navigator>
   );
@@ -36,6 +40,9 @@ const DrawerContent = ({navigation}: DrawerContentComponentProps) => {
     theme: {colors},
     actualTheme,
   } = useContext(ThemeContext);
+
+  const {t} = useTranslation();
+
   return (
     <DrawerContentScrollView
       style={{
@@ -64,9 +71,20 @@ const DrawerContent = ({navigation}: DrawerContentComponentProps) => {
             <Icon name="home-outline" size={20} color={colors.text} />
             <Text style={{...globalStyles.drawerText, color: colors.text}}>
               {' '}
-              Home
+              {t('ui.home')}
             </Text>
           </TouchableOpacity>
+
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate('Premium')}
+            activeOpacity={0.6}
+            style={globalStyles.drawerButton}>
+            <Icon name="ribbon-outline" size={20} color={colors.text} />
+            <Text style={{...globalStyles.drawerText, color: colors.text}}>
+              {' '}
+              {t('ui.premium')}
+            </Text>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => navigation.navigate('Settings')}
@@ -75,7 +93,7 @@ const DrawerContent = ({navigation}: DrawerContentComponentProps) => {
             <Icon name="cog-outline" size={20} color={colors.text} />
             <Text style={{...globalStyles.drawerText, color: colors.text}}>
               {' '}
-              Settings
+              {t('ui.settings')}
             </Text>
           </TouchableOpacity>
         </View>

@@ -38,7 +38,10 @@
     "todo": "Por hacer",
     "todoList": "Cosas por hacer",
     "total": "Total",
-    "type": "Tipo"
+    "type": "Tipo",
+    "home": "Inicio",
+    "settings": "Ajustes",
+    "premium": "Premium"
   },
   "menu": {
     "addCategory": "Agregar categoría",

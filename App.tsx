@@ -2,11 +2,11 @@ import 'react-native-gesture-handler';
 import React, {useContext} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
+import {I18nextProvider} from 'react-i18next';
 
 import {DrawerNavigator} from './src/navigator/DrawerNavigator';
 import {ThemeProvider, ThemeContext} from './src/context/ThemeContext';
 import {AppProvider} from './src/context/AppContext';
-import {I18nextProvider} from 'react-i18next';
 import i18n from './src/translations/config/i18NextConfig';
 
 const App = () => {

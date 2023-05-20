@@ -38,7 +38,10 @@
     "todo": "To do",
     "todoList": "To do list",
     "total": "Total",
-    "type": "Type"
+    "type": "Type",
+    "home": "Home",
+    "settings": "Settings",
+    "premium": "Premium"
   },
   "menu": {
     "addCategory": "Add category",
