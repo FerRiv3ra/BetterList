@@ -49,7 +49,7 @@ const List = ({
   } = useContext(ThemeContext);
   const {showAds} = useContext(AppContext);
 
-  const {top} = useSafeAreaInsets();
+  const {top, bottom} = useSafeAreaInsets();
 
   const openModalAddCategory = () => {
     setMenuVisible(false);
@@ -59,7 +59,7 @@ const List = ({
 
   return (
     <View style={{backgroundColor: colors.card, flex: 1}}>
-      <Pressable
+      <View
         style={{
           backgroundColor: colors.primary,
           height: top + 50,
@@ -78,7 +78,7 @@ const List = ({
           onPress={() => setMenuVisible(!menuVisible)}>
           <Icon name="ellipsis-vertical" size={25} color={colors.card} />
         </TouchableOpacity>
-      </Pressable>
+      </View>
       {selectedList.type === 'todo' ? (
         <KeyboardAvoidingScrollView keyboardDismissMode="on-drag">
           <ListItems
@@ -123,7 +123,7 @@ const List = ({
         </View>
       )}
 
-      {showAds && <FooterBannerAd bottom={75} />}
+      {showAds && <FooterBannerAd bottom={bottom + 42} />}
 
       <ListFooter
         onPress={() => addTask(category, selectedList.type)}

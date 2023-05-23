@@ -79,7 +79,7 @@ const DrawerContent = ({navigation}: DrawerContentComponentProps) => {
             onPress={() => navigation.navigate('Premium')}
             activeOpacity={0.6}
             style={globalStyles.drawerButton}>
-            <Icon name="ribbon-outline" size={20} color={colors.text} />
+            <Icon name="diamond-outline" size={20} color={colors.text} />
             <Text style={{...globalStyles.drawerText, color: colors.text}}>
               {' '}
               {t('ui.premium')}

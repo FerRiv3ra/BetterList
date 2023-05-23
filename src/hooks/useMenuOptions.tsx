@@ -17,8 +17,8 @@ export const useMenuOptions = (list: List) => {
           {
             text: list.expandAll ? 'collapseCategories' : 'expandCategories',
             iconName: list.expandAll
-              ? 'chevron-up-outline'
-              : 'chevron-down-outline',
+              ? 'chevron-collapse-outline'
+              : 'chevron-expand-outline',
           },
           {text: 'orderByName', iconName: 'swap-vertical-outline'},
           {text: 'orderByPrice', iconName: 'swap-vertical-outline'},

@@ -67,6 +67,8 @@ const Category = ({
     }
   };
 
+  console.log({expand: selectedList.expandAll, isOpen});
+
   return (
     <Swipeable
       ref={ref => (row[index] = ref as any)}
@@ -96,12 +98,14 @@ const Category = ({
               {category}
             </Text>
             <View style={{...styles.counterContainer}}>
-              {completed !== total && (
+              {total - completed > 0 && (
                 <Text
                   style={{
                     ...styles.counter,
                     color: listText,
-                  }}>{`${completed}/${total}`}</Text>
+                  }}>
+                  {total - completed}
+                </Text>
               )}
               <Icon
                 name={
