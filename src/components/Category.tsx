@@ -67,8 +67,6 @@ const Category = ({
     }
   };
 
-  console.log({expand: selectedList.expandAll, isOpen});
-
   return (
     <Swipeable
       ref={ref => (row[index] = ref as any)}

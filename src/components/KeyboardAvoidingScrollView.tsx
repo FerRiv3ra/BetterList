@@ -1,6 +1,7 @@
 import {Platform, KeyboardAvoidingView, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import AppContext from '../context/AppContext';
 
 interface Props {
   children: React.ReactNode[] | React.ReactNode;
@@ -12,10 +13,11 @@ export const KeyboardAvoidingScrollView = ({
   keyboardDismissMode,
 }: Props) => {
   const {bottom} = useSafeAreaInsets();
+  const {showAds} = useContext(AppContext);
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1, marginBottom: bottom + 28}}
+      style={{flex: 1, marginBottom: showAds ? bottom + 28 : 0}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardDismissMode={keyboardDismissMode}>
         {children}
