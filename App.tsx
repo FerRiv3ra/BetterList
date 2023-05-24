@@ -3,6 +3,7 @@ import React, {useContext} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {I18nextProvider} from 'react-i18next';
+import RNBootSplash from 'react-native-bootsplash';
 
 import {DrawerNavigator} from './src/navigator/DrawerNavigator';
 import {ThemeProvider, ThemeContext} from './src/context/ThemeContext';
@@ -14,7 +15,9 @@ const App = () => {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <NavigationContainer theme={theme}>
+      <NavigationContainer
+        theme={theme}
+        onReady={() => RNBootSplash.hide({fade: true})}>
         <ThemeProvider>
           <AppProvider>
             <DrawerNavigator />
