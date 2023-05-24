@@ -1,4 +1,4 @@
-package com.betterlists.newarchitecture.components;
+package com.ferrivera.betterlists.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

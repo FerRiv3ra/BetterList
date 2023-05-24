@@ -1,4 +1,4 @@
-package com.betterlists.newarchitecture;
+package com.ferrivera.betterlists.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.betterlists.BuildConfig;
-import com.betterlists.newarchitecture.components.MainComponentsRegistry;
-import com.betterlists.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.ferrivera.betterlists.BuildConfig;
+import com.ferrivera.betterlists.newarchitecture.components.MainComponentsRegistry;
+import com.ferrivera.betterlists.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

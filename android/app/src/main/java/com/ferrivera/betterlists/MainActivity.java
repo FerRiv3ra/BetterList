@@ -1,4 +1,4 @@
-package com.betterlists;
+package com.ferrivera.betterlists;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
