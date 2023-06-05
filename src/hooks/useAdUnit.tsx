@@ -1,7 +1,6 @@
 import {Platform} from 'react-native';
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
-import {useFocusEffect} from '@react-navigation/native';
 import {
   AdEventType,
   InterstitialAd,
@@ -13,7 +12,7 @@ const interstitial = InterstitialAd.createForAdRequest(
     ? TestIds.INTERSTITIAL
     : Platform.OS === 'ios'
     ? 'ca-app-pub-1171426954858897/6296831259'
-    : 'ca-app-pub-1171426954858897/7688119760',
+    : 'ca-app-pub-1171426954858897/3087938318',
   {
     requestNonPersonalizedAdsOnly: true,
     keywords: ['fashion', 'clothing'],
@@ -42,7 +41,7 @@ export const useAdUnit = () => {
     ? TestIds.BANNER
     : Platform.OS === 'ios'
     ? 'ca-app-pub-1171426954858897/2441346726'
-    : 'ca-app-pub-1171426954858897/8046340277';
+    : 'ca-app-pub-1171426954858897/1239616125';
 
   return {
     banneUnitId,
