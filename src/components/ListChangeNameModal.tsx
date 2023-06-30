@@ -46,7 +46,11 @@ const ListChangeNameModal = ({setModalVisible, modalVisible, list}: Props) => {
             value={currentTitle}
             onChangeText={setCurrentTitle}
             onSubmitEditing={() => Keyboard.dismiss()}
-            style={{...styles.input, borderBottomColor: listText}}
+            style={{
+              ...styles.input,
+              borderBottomColor: listText,
+              color: listText,
+            }}
           />
           <TouchableOpacity
             activeOpacity={0.6}
@@ -73,7 +77,7 @@ const ListChangeNameModal = ({setModalVisible, modalVisible, list}: Props) => {
           style={{...styles.buttonClose, backgroundColor: colors.background}}
           activeOpacity={0.6}
           onPress={() => setModalVisible(false)}>
-          <Icon name="close-outline" color={colors.border} size={26} />
+          <Icon name="close-outline" color={listText} size={26} />
         </TouchableOpacity>
       </View>
     </Modal>
